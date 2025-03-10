@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 #use the load_displacement_curve function to get a 2D numpy array
 # argument is the sample number (1-3)
 
+#LOAD DISPLACEMENT FUNCTIONS
 def readLD(sampleNo,colNo):
     filename = "data_CSV/S"+str(sampleNo)+"_load_displ_data.csv"
     datList = []
@@ -27,17 +28,6 @@ def plot_load_displacement_curve(sampleNo):
     plt.xlabel("Displacement [mm]") 
     plt.ylabel("Load [N]")
     plt.show()
-
-def readCrack(sampleNo, colNo):
-    filename = "data_CSV/S"+str(sampleNo)+"_crack_length_data.csv"
-    datList = []
-    with open(filename, newline='') as csvfile:
-        rawDat = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        next(rawDat)
-        for i in rawDat:
-            x = float((i[-1]).split(",")[colNo])
-            datList.append(x)
-    return np.array(datList)
 
 #for testing
 if __name__ == "__main__":
