@@ -11,8 +11,7 @@ import ComplianceCalibrationMethod as ccm
 import ModifiedCCM as modccm
 
 #data arrays -- np arrays, 2D
-loadDisplacement = []
-crackLength = []
+
 
 #specimen geometry
 specimenWidth = 0.07 #[m]

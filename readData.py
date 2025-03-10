@@ -11,6 +11,6 @@ def readLD(sampleNo,colNo):
             datList.append(x)
     return np.array(datList)
 
-def load_displacement_curve():
-    LD = np.stack((readLD(3,5),readLD(3,6)), axis=1)
+def load_displacement_curve(sampleNo):
+    LD = np.stack((readLD(sampleNo,5),readLD(sampleNo,6)), axis=1)
     return LD
