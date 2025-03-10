@@ -6,8 +6,9 @@ def readLD(sampleNo,colNo):
     datList = []
     with open(filename, newline='') as csvfile:
         rawDat = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        next(rawDat)
         for i in rawDat:
-            x = (i[-1]).split(",")[colNo]
+            x = float((i[-1]).split(",")[colNo])
             datList.append(x)
     return np.array(datList)
 
