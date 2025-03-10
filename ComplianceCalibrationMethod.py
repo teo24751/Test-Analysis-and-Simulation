@@ -14,7 +14,7 @@ ydata = [0,1,2,3,4,6,6,7,8,9,15,16,17,20]
 
 epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
 
-print(epic)
+#print(epic)
 t = np.arange(0.0, max(xdata)+1, 0.02)
 plt.plot(xdata,ydata)
 
@@ -33,7 +33,6 @@ def G_IC(a, P_crit, alpha, beta, chi, thickness):
 
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
 
-print(G_IC(a, P_crit, alpha, beta, chi, thickness))
 
 
 
