@@ -1,4 +1,5 @@
 #libraries
+import csv
 import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
@@ -20,3 +21,4 @@ specimenThickness = 0.008 #[m]
 initialCrackLength = 0.013 #[m]
 loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = [specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset]
+
