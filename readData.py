@@ -21,14 +21,18 @@ def load_displacement_curve(sampleNo):
     LD = np.stack((readLD(sampleNo,5),readLD(sampleNo,6)), axis=1)
     return LD
 
-def plot_load_displacement_curve(sampleNo):
-    curve = load_displacement_curve(sampleNo)
-    plt.plot(curve[:,1],curve[:,0])
-    plt.title("Load-displacement curve, sample "+str(sampleNo))
+def plot_load_displacement_curve(sampleNoList):
+    for i in sampleNoList:
+        curve = load_displacement_curve(i)
+        plt.plot(curve[:,1],curve[:,0], label="Sample "+str(i))
     plt.xlabel("Displacement [mm]") 
     plt.ylabel("Load [N]")
+    plt.legend()
+    plt.title("Load-Displacement Curve(s)")
     plt.show()
+
+
 
 #for testing
 if __name__ == "__main__":
-    plot_load_displacement_curve(3)
+    plot_load_displacement_curve([1,2,3])
