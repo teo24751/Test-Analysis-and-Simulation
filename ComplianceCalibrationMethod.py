@@ -24,3 +24,5 @@ for i in range(len(epic)):
     chi = epic[0][2]
     plt.plot(t, (alpha * t + beta)**chi, 'r--')
 plt.show()
+a= 0.02
+G_IC = (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
