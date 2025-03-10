@@ -20,7 +20,7 @@ compl = []
 for i in range(len(array)-2):
     compl.append(compliance(i,array))
 
-for i in range(int(len(compl)/5)+20):
-    print(compl[i])
+#for i in range(int(len(compl)/5)+20):
+    #print(compl[i])
 
 
