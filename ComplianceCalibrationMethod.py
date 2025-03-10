@@ -1,16 +1,26 @@
 import numpy as np
 import math
 import scipy as sp
+import matplotlib.pyplot as plt
 
 P_crit = 10000 # Newton
 thickness = 0.008 # meter
 
-def func(x,alpha,beta,chi):
-    return (alpha * x + beta)**chi
+def func(a,alpha,beta,chi):
+    return (alpha * a + beta)**chi
 
-xdata = [1,2,3,5]
-ydata = [4,2,5,5]
+xdata = [1,2,3,5,7,8,9,9,10,11,20,23,25]
+ydata = [1,2,3,4,6,6,7,8,9,15,16,17,20]
 
-epic = sp.optimize.curve_fit(func, xdata, ydata)
+epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 10000)
 
 print(epic)
+t = np.arange(0.0, max(xdata)+1, 0.02)
+plt.plot(xdata,ydata)
+print(epic[0][0])
+for i in range(len(epic)):
+    alpha = epic[0][0]
+    beta = epic[0][1]
+    chi = epic[0][2]
+    plt.plot(t, (alpha * t + beta)**chi, 'r--')
+plt.show()
