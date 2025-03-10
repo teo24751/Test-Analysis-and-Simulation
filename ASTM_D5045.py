@@ -1,13 +1,36 @@
 import numpy as np
+import scipy as sp
 import main
 import readData
+import matplotlib.pyplot as plt
+import math
 
+def f(x):
+    return ((2+x)*(0.886+4.64*x-13.32*x**2+14.72*x**3-5.6*x**4))/(1-x)**1.5
+
+def K_Q(P_Q,thickness,width,x):
+    return P_Q/thickness/math.sqrt(width)*f(x)
+
+def phi(x):
+    return (1.9118+19.118*x-2.5122*x**2-23.226*x**3+20.54*x**4)*(1-x)/((19.118-5.0244*x-69.678*x**2+82.16*x**3)*(1-x)+2*(1.9118+19.118*x-2.5122*x**2-23.226*x**3+20.54*x**4))
+
+def energy_integration(loads,displacements):
+    return np.trapz(loads, x=displacements, axis=-1)
+
+def G_Q(thickness,width,loads,displacements,x):
+    return
 #Initial values
+print(readData.load_displacement_curve(3))
 width=1
-crack_lengths=np.array(range(1,10))
-loads=np.array([11,12,13,14,17,20,36,45,77,80])
-displacements=np.array(range(20,30))
+thickness=1
+loads=readData.load_displacement_curve(3)[0]#np.array([11,12,13,14,17,20,36,45,77,80])
+displacements=readData.load_displacement_curve(3)[1]
+crack_lengths=readData.load_displacement_curve(3)[2]
 x=crack_lengths/width
+
+#Plotting the data to check if it's correct
+plt.plot(displacements,loads)
+plt.show()
 
 
 #Linearization of the load-displacement curve
@@ -41,13 +64,11 @@ intersection_load=loads[intersection_point_index]
 intersection_displacement=displacements[intersection_point_index]
 print(intersection_load)
 
-print(readData.load_displacement_curve(3))
 
 #Now the appropriate load has to be determined:
 if intersection_load/max(loads)>1.1:
     print('The test is invalid!')
-elif intersection_displacement:
+elif intersection_displacement<>:
 
 else:
     P_Q=intersection_load
-P_Q=intersection_load
