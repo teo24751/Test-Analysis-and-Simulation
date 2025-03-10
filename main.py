@@ -10,11 +10,13 @@ import AreaMethod as area
 import ASTM_D5045 as d5045
 import ASTM_E399 as e399
 import ComplianceCalibrationMethod as ccm
-import DeterminingCompliance as modccm
+import DeterminingCompliance as complianceDet
 
 #data arrays -- np arrays, 2D
+LD1 = readData.load_displacement_curve(1)
+LD2 = readData.load_displacement_curve(2)
 LD3 = readData.load_displacement_curve(3)
-print(LD3)
+#print(LD3)
 
 #specimen geometry
 specimenWidth = 0.07 #[m]
