@@ -1,5 +1,6 @@
 import numpy as np
 import main
+import readData
 
 #Initial values
 width=1
@@ -40,11 +41,13 @@ intersection_load=loads[intersection_point_index]
 intersection_displacement=displacements[intersection_point_index]
 print(intersection_load)
 
+print(readData.load_displacement_curve(3))
+
 #Now the appropriate load has to be determined:
 if intersection_load/max(loads)>1.1:
     print('The test is invalid!')
 elif intersection_displacement:
-    
+
 else:
     P_Q=intersection_load
 P_Q=intersection_load
