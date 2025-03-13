@@ -11,16 +11,17 @@ arr = np.array(arr)
 
 
 def compliance(n,arr):
-    angle = (arr[n+2][0]-arr[n][0]) / (arr[n+2][1]-arr[n][1])
-    return math.tan(angle) / 1.05
+    return arr[n][1]/arr[n][0]
 
 compl = []
 
-for i in range(len(array)-2):
+for i in range(int(len(compl)/5)+20):
+    print(array[i])
+for i in range(6,len(array)-2):
+    #print(i)
     compl.append(compliance(i,array))
 print(compl)
-#for i in range(int(len(compl)/5)+20):
-    #print(compl[i])
+
 
 def calculate_compliance():
     return compl

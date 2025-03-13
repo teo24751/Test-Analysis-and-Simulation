@@ -11,12 +11,13 @@ thickness = 0.008 # meter
 def func(a,alpha,beta,chi):
     return (alpha * a + beta)**chi
 
-xdata = [0,1,2,3,7,7,8,9,9,10,14,19,22,25]
-ydata = [0,2,4,6,8,10,12,13,15,15,25,25,25]
+xdata = [0,1,2,3,4,5,6,7,8,9]
+ydata = [0,1,2,3,4,5,6,7,8,10]
 
+print(len(xdata), len(ydata))
 epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
 
-print(epic)
+#print(epic)
 t = np.arange(0.01, max(xdata)+1, 0.02)
 plt.plot(xdata,ydata)
 
@@ -45,7 +46,7 @@ def a_eff(C, n, alpha, beta, chi):
 a_effective = []
 for i in range(len(compliance)):
     a_effective.append(a_eff(compliance, i, alpha, beta, chi))
-print(f"Effective crack length: {a_effective}")
+#print(f"Effective crack length: {a_effective}")
 
 def G_IC_modified(a_effective, n, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective[n] + beta) ** (chi-1))
@@ -53,4 +54,4 @@ def G_IC_modified(a_effective, n, P_crit, alpha, beta, chi, thickness):
 G_IC_mod = []
 for i in range(len(a_effective)):
     G_IC_mod.append(G_IC_modified(a_effective, i, P_crit, alpha, beta, chi, thickness))
-print(G_IC_mod)
+print('Toughness:', G_IC_mod)
