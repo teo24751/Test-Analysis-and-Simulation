@@ -55,4 +55,3 @@ G_IC_mod = []
 for i in range(len(a_effective)):
     G_IC_mod.append(G_IC_modified(a_effective, i, P_crit, alpha, beta, chi, thickness))
 print('Toughness:', G_IC_mod)
-print("hello")
