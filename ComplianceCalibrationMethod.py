@@ -2,6 +2,8 @@ import numpy as np
 import math
 import scipy as sp
 import matplotlib.pyplot as plt
+from DeterminingCompliance import calculate_compliance
+import readData as rd
 
 P_crit = 10000 # Newton
 thickness = 0.008 # meter
@@ -23,7 +25,7 @@ beta = epic[0][1]
 chi = epic[0][2]
 plt.plot(t, (alpha * t + beta)**chi, 'r--')
 plt.show()
-a= 0.02
+a = 0.02
 
 alpha = float(alpha)
 beta = float(beta)
@@ -33,10 +35,19 @@ def G_IC(a, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
 
 
-
-
-
 # MODIFIED PART
+print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
+compliance = calculate_compliance()
+print(f"compliance: {compliance}")
 
-def a_eff(C,alpha,beta,chi):
-    return (C**(1/chi) - beta)/alpha
+def a_eff(C, n, alpha, beta, chi):
+    return (C[n]**(1/chi) - beta)/alpha
+
+a_effective = []
+for i in range(len(compliance)):
+    a_effective.append(a_eff(compliance, i, alpha, beta, chi))
+print(f"Effective crack length: {a_effective}")
+
+def G_IC_modified(a_effective, P_crit, alpha, beta, chi, thickness):
+    return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective+beta) ** (chi-1))
+
