@@ -33,7 +33,6 @@ chi = float(chi)
 
 def G_IC(a, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
-print("Hello", G_IC(a, P_crit, alpha, beta, chi, thickness))
 
 # MODIFIED PART
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
