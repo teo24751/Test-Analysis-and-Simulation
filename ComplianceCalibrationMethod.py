@@ -42,7 +42,7 @@ def G_IC(a, P_crit, alpha, beta, chi, thickness):
 G_IC_list = []
 
 for i in range(len(compliance)):
-    G_IC_list.append(G_IC(crack_lengths[i], P_crit, alpha, beta, chi, thickness))
+    G_IC_list.append(G_IC(crack_lengths[i]/1000, P_crit, alpha, beta, chi, thickness))
 
 
 
@@ -67,9 +67,9 @@ for i in range(len(a_effective)):
     G_IC_mod.append(G_IC_modified(a_effective, i, P_crit, alpha, beta, chi, thickness))
 #print('Toughness:', G_IC_mod)
 
-plt.plot(crack_lengths, G_IC_mod)
-plt.plot(crack_lengths, G_IC_list)
+#plt.plot(crack_lengths/1000, G_IC_mod)
+plt.plot(crack_lengths/1000, G_IC_list)
 plt.show()
 
 for i in range(0,500,10):
-    print(G_IC_list[i], G_IC_mod[i])
+    print(G_IC_list[i])
