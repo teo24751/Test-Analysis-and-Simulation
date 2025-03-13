@@ -8,8 +8,6 @@ array = rd.load_displacement_curve(3)
 arr = [[0.001,1],[0.002,3],[0.003,3.5],[0.004,4], [0.005,6]]
 arr = np.array(arr)
 
-#for i in range(4):
-    #print(array[i+53])
 
 
 def compliance(n,arr):
