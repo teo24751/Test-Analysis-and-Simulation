@@ -13,20 +13,22 @@ compliance = calculate_compliance()
 def func(a,alpha,beta,chi):
     return (alpha * a + beta)**chi
 crack_lengths = np.arange(0.0, len(compliance), 1)
-xdata = [0,1,2,3,4,5,6,7,8,10]
-ydata = [0,1,2,3,4,5,6,7,8,10]
+#xdata = [0,1,2,3,4,5,6,7,8,10]
+#ydata = [0,1,2,3,4,5,6,7,8,10]
 
 #print(len(xdata), len(ydata))
-epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
+#epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
+
+epic = sp.optimize.curve_fit(func, crack_lengths, compliance, maxfev = 1000)
 
 #print(epic)
-t = np.arange(0.01, max(xdata)+1, 0.02)
-plt.plot(xdata,ydata)
+t = np.arange(0.01, max(crack_lengths)+1, 0.02)
+plt.plot(crack_lengths,compliance)
 
 alpha = epic[0][0]
 beta = epic[0][1]
 chi = epic[0][2]
-plt.plot(t, (alpha * t + beta)**chi, 'r--')
+#plt.plot(t, (alpha * t + beta)**chi, 'r--')
 plt.show()
 a = 0.02
 
