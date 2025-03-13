@@ -12,7 +12,7 @@ def func(a,alpha,beta,chi):
     return (alpha * a + beta)**chi
 
 xdata = [0,1,2,3,7,7,8,9,9,10,14,19,22,25]
-ydata = [0,1,2,3,4,6,6,7,8,9,15,25,25,25]
+ydata = [0,2,4,6,8,10,12,13,15,15,25,25,25]
 
 epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
 
