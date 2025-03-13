@@ -12,7 +12,7 @@ def func(a,alpha,beta,chi):
     return (alpha * a + beta)**chi
 
 xdata = [0,1,2,3,7,7,8,9,9,10,14,19,22,25]
-ydata = [0,1,2,3,4,6,6,7,8,9,15,25,25,25]
+ydata = [0,2,4,6,8,10,12,13,15,15,25,25,25]
 
 epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
 
@@ -34,7 +34,6 @@ chi = float(chi)
 def G_IC(a, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
 
-
 # MODIFIED PART
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 compliance = calculate_compliance()
@@ -48,6 +47,10 @@ for i in range(len(compliance)):
     a_effective.append(a_eff(compliance, i, alpha, beta, chi))
 print(f"Effective crack length: {a_effective}")
 
-def G_IC_modified(a_effective, P_crit, alpha, beta, chi, thickness):
-    return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective+beta) ** (chi-1))
+def G_IC_modified(a_effective, n, P_crit, alpha, beta, chi, thickness):
+    return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective[n] + beta) ** (chi-1))
 
+G_IC_mod = []
+for i in range(len(a_effective)):
+    G_IC_mod.append(G_IC_modified(a_effective, i, P_crit, alpha, beta, chi, thickness))
+print(G_IC_mod)
