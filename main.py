@@ -29,7 +29,13 @@ specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness
 #get fracture toughness from methods
 
 #output fracture toughness
+print("Fracture toughnesses:")
+print(f"ASTM D5045: {5}")
+print(f"ASTM E399: {5}")
+print(f"Compliance: {5}")
+print(f"Modified Compliance: {5}")
 
 #graph crack length
 
 #graph load-displacement
+readData.plot_load_displacement_curve([1,2,3])
