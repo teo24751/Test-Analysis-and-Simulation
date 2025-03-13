@@ -5,11 +5,6 @@ import matplotlib.pyplot as plt
 
 array = rd.load_displacement_curve(3)
 
-arr = [[0.001,1],[0.002,3],[0.003,3.5],[0.004,4], [0.005,6]]
-arr = np.array(arr)
-
-
-
 def compliance(n,arr):
     return arr[n][1]/arr[n][0]
 
