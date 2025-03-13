@@ -33,7 +33,7 @@ chi = float(chi)
 
 def G_IC(a, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
-
+print("Hello", G_IC(a, P_crit, alpha, beta, chi, thickness))
 
 # MODIFIED PART
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
@@ -48,6 +48,10 @@ for i in range(len(compliance)):
     a_effective.append(a_eff(compliance, i, alpha, beta, chi))
 print(f"Effective crack length: {a_effective}")
 
-def G_IC_modified(a_effective, P_crit, alpha, beta, chi, thickness):
-    return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective+beta) ** (chi-1))
+def G_IC_modified(a_effective, n, P_crit, alpha, beta, chi, thickness):
+    return (P_crit ** 2) / (2*thickness) * alpha * chi * ((alpha * a_effective[n] + beta) ** (chi-1))
 
+G_IC_mod = []
+for i in range(len(a_effective)):
+    G_IC_mod.append(G_IC_modified(a_effective, i, P_crit, alpha, beta, chi, thickness))
+print(G_IC_mod)
