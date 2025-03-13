@@ -40,20 +40,26 @@ def readCrack(sampleNo, colNo):
         next(rawDat)
         for i in rawDat:
             x = float((i[-1]).split(",")[colNo])
-            print(x)
+            #print(x)
             datList.append(x)
     return np.array(datList)
 
 def crack_curve(sampleNo):
-    CC = np.stack((readCrack(sampleNo,2), readCrack(sampleNo,-1), readCrack(sampleNo,1), readCrack(sampleNo,0)))
+    CC = np.stack((readCrack(sampleNo,2), readCrack(sampleNo,4), readCrack(sampleNo,1), readCrack(sampleNo,0)), axis = 1)
+    #print(CC)
     return CC
 
-def plot_crack_curve(sampleNoList):
+def plot_crack_curve(sampleNoList, framePlot = True):
     for i in sampleNoList:
         curve = crack_curve(i)
-        plt.plot(curve[:,3],curve[:,0], label="Sample "+str(i))
+        if framePlot:
+            plt.plot(curve[:,3],curve[:,0], label="Sample "+str(i))
+        else:
+            plt.plot(curve[:,2],curve[:,0], label="Sample "+str(i))
     #plt.xlabel("Y-displacement [mm]") 
-    plt.xlabel("Frame [-]") 
+    plt.xlabel("Y-Displacement [mm]") 
+    if framePlot:
+        plt.xlabel("Frame [-]")
     plt.ylabel("Crack length [mm]")
     plt.legend()
     plt.title("Crack Length Propagation")
@@ -62,4 +68,5 @@ def plot_crack_curve(sampleNoList):
 #for testing
 if __name__ == "__main__":
     #plot_load_displacement_curve([1,2,3])
-    plot_crack_curve([1,2])
+    plot_crack_curve([1,2,3], framePlot=False)
+    #crack_curve(3)
