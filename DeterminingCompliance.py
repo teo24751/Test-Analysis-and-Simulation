@@ -15,12 +15,12 @@ def compliance(n,arr):
 
 compl = []
 
-for i in range(int(len(compl)/5)+20):
-    print(array[i])
+#for i in range(int(len(compl)/5)+20):
+    #print(array[i])
 for i in range(6,len(array)-2):
     #print(i)
     compl.append(compliance(i,array))
-print(compl)
+#print(compl)
 
 
 def calculate_compliance():
