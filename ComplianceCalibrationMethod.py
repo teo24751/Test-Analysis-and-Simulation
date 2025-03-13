@@ -38,7 +38,7 @@ def G_IC(a, P_crit, alpha, beta, chi, thickness):
 # MODIFIED PART
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 compliance = calculate_compliance()
-print(f"compliance: {compliance}")
+#print(f"compliance: {compliance}")
 
 def a_eff(C, n, alpha, beta, chi):
     return (C[n]**(1/chi) - beta)/alpha
