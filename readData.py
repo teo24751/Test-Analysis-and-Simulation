@@ -48,7 +48,9 @@ def crack_curve(sampleNo):
     CC = np.stack((readCrack(sampleNo,2), readCrack(sampleNo,4), readCrack(sampleNo,1), readCrack(sampleNo,0)), axis = 1)
     #print(CC)
     return CC
-
+print(len(crack_curve(1)))
+print(len(crack_curve(2)))
+print(len(crack_curve(3)))
 def plot_crack_curve(sampleNoList, framePlot = True):
     for i in sampleNoList:
         curve = crack_curve(i)

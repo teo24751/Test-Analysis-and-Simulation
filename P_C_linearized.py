@@ -10,7 +10,7 @@ def intersection_load(displacement,load):
     load = np.array(load)
 
     # Filter the data to include only displacements between 0.6 and 4.0
-    mask = (displacement >= 0.6) & (displacement <= 4.0)
+    mask = (displacement >= 0.6) & (displacement <= 5.0)
     displacement_filtered = displacement[mask]
     load_filtered = load[mask]
 
@@ -26,15 +26,12 @@ def intersection_load(displacement,load):
     slope = model.coef_[0]
     intercept = model.intercept_
 
-    # Print the results
-    print(f"Slope: {slope}")
-    print(f"Intercept: {intercept}")
 
     # Predict using the model
     load_pred = model.predict(displacement_filtered_reshaped)
 
     # Plot the regression line for the filtered data
-    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (0.6 <= displacement <= 4.0)")
+    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (0.6 <= displacement <= 5.0)")
 
     # Create the second line with a slope of slope / 1.05, starting at the same intercept
     new_slope = slope / 1.05

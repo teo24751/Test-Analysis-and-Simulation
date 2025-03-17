@@ -4,8 +4,8 @@ import readData
 import P_C_linearized
 
 #Initial values
-width=70/1000 #mm
-thickness=8/1000 #mm
+width=70/1000 #m
+thickness=8/1000 #m
 yield_stress=150*10**6 #Pa
 
 def f(x):
@@ -38,22 +38,24 @@ def sample(sample_number):
     crack_tip_to_edge_length=list(readData.crack_curve(sample_number)[:,1])
 
     maximum_load=max(loads)
-    displacement_at_max_load=displacements[loads.index(maximum_load)]/1000
+    displacement_at_max_load=displacements[loads.index(maximum_load)]#mm
     intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement=P_C_linearized.intersection_load(displacements,loads)
     crack_length=crack_tip_length[loads.index(maximum_load)]
     x=crack_length/width
-    ligament=width-crack_length*1000
+    ligament=width-crack_length
 
-    #if maximum_load/intersection_load>1.1:
-      #  print("Test ",sample_number, " is invalid due to max load!")
-      #  print(maximum_load,intersection_load)
+
+    if maximum_load/intersection_load>1.1:
+        print("Test ",sample_number, " is invalid due to max load!")
+        print(maximum_load,intersection_load)
         
-    if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
+    elif displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
         control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
         if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
             K_IC=K_Q(P_Q,thickness,width,x)
-            G_IC=G_Q(thickness,width,loads,displacements,x)
+            G_IC=G_Q(thickness,width,loads,displacements/1000,x)
+            return K_IC,G_IC
         else:
             print("Test ",sample_number, " is invalid!")
     else:
@@ -62,9 +64,9 @@ def sample(sample_number):
         if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
             K_IC=K_Q(P_Q,thickness,width,x)
             G_IC=G_Q(thickness,width,loads,displacements,x)
+            return K_IC,G_IC
         else:
             print("Test ",sample_number, " is invalid!")
-    return K_IC,G_Q
     
-    
-print(fracture_toughness(1))
+print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(2)*10**(-6))
+print('Critical energy release rate: ',energy_release_rate(2))
