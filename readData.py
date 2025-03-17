@@ -65,10 +65,21 @@ def plot_crack_curve(sampleNoList, framePlot = True):
     plt.title("Crack Length Propagation")
     plt.show()
 
-def lengthen_array(sampleNo):
-    long = load_displacement_curve(sampleNo)
-    short = crack_curve(sampleNo)
-    
+def data_short(sampleNo):#trim load data
+    lDat = load_displacement_curve(sampleNo)
+    cDat = crack_curve(sampleNo)
+    frameNo = cDat.shape[0]
+    frames = cDat[:,-1].astype(np.int64)    
+    short_lDat = lDat[frames]
+    shortDat = np.zeros((frameNo,4))
+    shortDat[:,-1] = cDat[:,-1]#frame number
+    shortDat[:,2] = cDat[:,0]#crack length
+    shortDat[:,0] = short_lDat[:,1]#displacement
+    shortDat[:,1] = short_lDat[:,0]#load
+    return shortDat
+
+def data_long():#interpolates crack length data
+    pass
 
 def plot_all_data():
     ax1 = plt.subplot(311)
@@ -93,7 +104,8 @@ def plot_all_data():
 
 #for testing
 if __name__ == "__main__":
-    #plot_load_displacement_curve([1,2,3])
+    #plot_load_displacement_curve([2])
     #plot_crack_curve([1,2,3], framePlot=False)
     #crack_curve(3)
-    plot_all_data(1)
+    #print(data_short(1))
+    pass
