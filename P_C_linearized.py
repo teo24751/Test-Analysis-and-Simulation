@@ -75,7 +75,6 @@ def intersection_load(displacement,load):
 
 
 
-
     
 
     
