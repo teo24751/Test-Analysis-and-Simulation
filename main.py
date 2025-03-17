@@ -7,10 +7,12 @@ from matplotlib import pyplot as plt
 import readData
 import DeterminingCompliance as complianceDet
 #fracture toughness calculation methods
+'''
 import AreaMethod as area
 import ASTM_D5045 as d5045
 import ASTM_E399 as e399
-import ComplianceCalibrationMethod as ccm
+import ComplianceCalibrationMethod as ccm'
+'''
 
 #data arrays -- np arrays, 2D
 LD1 = readData.load_displacement_curve(1)
@@ -38,4 +40,4 @@ print(f"Modified Compliance: {5}")
 #graph crack length
 
 #graph load-displacement
-readData.plot_load_displacement_curve([1,2,3])
+readData.plot_all_data()

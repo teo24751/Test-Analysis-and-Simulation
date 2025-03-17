@@ -70,23 +70,25 @@ def lengthen_array(sampleNo):
     short = crack_curve(sampleNo)
     
 
-def plot_all_data(n):
-    frm1 = load_displacement_curve(n)[:,-1]
-    frm2 = crack_curve(n)[:,-1]
-    ax1 = plt.subplot(231)
-    plt.plot(frm1, load_displacement_curve(n)[:,0])
-    plt.ylabel("Load [N]")
+def plot_all_data():
+    ax1 = plt.subplot(311)
+    ax2 = plt.subplot(312)
+    ax3 = plt.subplot(313)
+    for i in range(1,4):
+        frm1 = load_displacement_curve(i)[:,-1]
+        frm2 = crack_curve(i)[:,-1]
+        ax1.plot(frm1, load_displacement_curve(i)[:,0], label="Sample "+str(i))
+        ax1.set_ylabel("Load [N]")
 
-    # share x only
-    ax2 = plt.subplot(232, sharex = ax1)
-    plt.plot(frm2, crack_curve(n)[:,0])
-    plt.ylabel("Crack Length [mm]")
+        # share x only
+        ax2.plot(frm2, crack_curve(i)[:,0], label="Sample "+str(i))
+        ax2.set_ylabel("Crack Length [mm]")
 
-    # share x and y
-    ax3 = plt.subplot(233)
-    plt.plot(frm1, load_displacement_curve(n)[:,1])
-    plt.ylabel("Displacement [mm]")
-    plt.xlabel("Frame")
+        # share x and y
+        ax3.plot(frm1, load_displacement_curve(i)[:,1], label="Sample "+str(i))
+        ax3.set_ylabel("Displacement [mm]")
+        ax3.set_xlabel("Frame")
+    plt.legend()
     plt.show()
 
 #for testing
