@@ -4,7 +4,7 @@ import main
 import readData
 import matplotlib.pyplot as plt
 import math
-from sklearn.linear_model import LinearRegression
+import P_C_linearized
 
 def f(x):
     return ((2+x)*(0.886+4.64*x-13.32*x**2+14.72*x**3-5.6*x**4))/(1-x)**1.5
@@ -43,69 +43,54 @@ y_displacement=list(readData.crack_curve(sample_number)[:,2]) #twice the displac
 
 #Linearization of the load-displacement curve
 #Only a part of the data falls on the linear part of the curve - LS regression
-error_initial=1.1
-error_final=1.1
-initial_linear_index=18
+#error_initial=1.1
+#error_final=1.1
+#initial_linear_index=18
+#final_linear_index=40
 
+#actual_length=len(loads[initial_linear_index:final_linear_index])
+#print(max(loads))
 
-final_linear_index=40
-actual_length=len(loads[initial_linear_index:final_linear_index])
-print(max(loads))
+#sums_of_residuals=[1000,1000]
 
-sums_of_residuals=[1000,1000]
+#S=10000
+#while S>sums_of_residuals[-2] and counter<1000:
+    #counter+=1
 
-counter=0
-S=10000
-while S>sums_of_residuals[-2] and counter<1000:
-    counter+=1
-
-    linear_part_loads=loads[initial_linear_index:final_linear_index]
-    linear_part_displacements=displacements[initial_linear_index:final_linear_index]
-    matrix=np.matrix([[final_linear_index-initial_linear_index+1,np.sum(linear_part_displacements)],[np.sum(linear_part_displacements),np.sum((np.array(linear_part_displacements)**2))]])
-    vector_values=np.matrix([[np.sum(linear_part_loads)],[np.sum(np.array(linear_part_loads)*np.array(linear_part_displacements))]])
-    line_parameters=np.dot(np.linalg.inv(matrix),vector_values)
-    linearized_loads=list((np.array(linear_part_displacements))*(line_parameters[1,0])+np.array(line_parameters[0,0]))
-    linearized_displacements=list(linear_part_displacements)
-    error_initial=abs(linearized_loads[0]-loads[initial_linear_index])/loads[initial_linear_index]
-    error_final=abs((linearized_loads[actual_length-1]-loads[final_linear_index]))/loads[final_linear_index]
+    #linear_part_loads=loads[initial_linear_index:final_linear_index]
+    #linear_part_displacements=displacements[initial_linear_index:final_linear_index]
+    #matrix=np.matrix([[final_linear_index-initial_linear_index+1,np.sum(linear_part_displacements)],[np.sum(linear_part_displacements),np.sum((np.array(linear_part_displacements)**2))]])
+    #vector_values=np.matrix([[np.sum(linear_part_loads)],[np.sum(np.array(linear_part_loads)*np.array(linear_part_displacements))]])
+    #line_parameters=np.dot(np.linalg.inv(matrix),vector_values)
+    #linearized_loads=list((np.array(linear_part_displacements))*(line_parameters[1,0])+np.array(line_parameters[0,0]))
+    #linearized_displacements=list(linear_part_displacements)
+    #error_initial=abs(linearized_loads[0]-loads[initial_linear_index])/loads[initial_linear_index]
+    #error_final=abs((linearized_loads[actual_length-1]-loads[final_linear_index]))/loads[final_linear_index]
 
     #Relative sum of residuals
-    S=0
-    for i in range(len(linear_part_loads)):
-        S+=(linear_part_loads[i]-linearized_loads[i])
-    S=S/len(linear_part_loads)
+    #S=0
+    #for i in range(len(linear_part_loads)):
+     #   S+=(linear_part_loads[i]-linearized_loads[i])
+    #S=S/len(linear_part_loads)
     
 
-    if S>sums_of_residuals[-1]:
-        initial_linear_index+=1
-        final_linear_index-=1
-        sums_of_residuals.append(S)
-    else:
-        break
+    #if S>sums_of_residuals[-1]:
+      #  initial_linear_index+=1
+      #  final_linear_index-=1
+       # sums_of_residuals.append(S)
+    #else:
+        #break
     #if error_initial>2.0*10**(-1):
     #    
     #    actual_length-=1
     #if error_final>2.0*10**(-1): #Currently, the error is less than 5%
     #    
     #    actual_length-=1
-        
 
 
-linearized_loads=list((np.array(displacements))*(line_parameters[1,0])+np.array(line_parameters[0,0]))
+offset_loads=P_C_linearized(loads,displacements)
+differences=abs(loads,offset_loads)
 
-offset_line_parameters=np.matrix([[line_parameters[0,0]],[line_parameters[1,0]/1.05]])
-print('Offset line parameters: ',offset_line_parameters)
-offset_loads=offset_line_parameters[0,0]+offset_line_parameters[1,0]*np.array(displacements)
-
-plt.plot(displacements,loads)
-plt.plot(displacements,linearized_loads)
-plt.plot(displacements,offset_loads)
-plt.show()
-
-differences=abs(loads-linearized_loads)
-
-print('Differences: ',differences)
-print(min(differences))
 
 intersection_load=loads[differences.index(min(abs(differences)))]
 intersection_displacement=displacements[differences.index(min(abs(differences)))]
