@@ -10,7 +10,7 @@ def intersection_load(displacement,load):
     load = np.array(load)
 
     # Filter the data to include only displacements between 0.6 and 4.0
-    mask = (displacement >= 0.6) & (displacement <= 4.0)
+    mask = (displacement >= 0.6) & (displacement <= 5.0)
     displacement_filtered = displacement[mask]
     load_filtered = load[mask]
 
@@ -26,15 +26,12 @@ def intersection_load(displacement,load):
     slope = model.coef_[0]
     intercept = model.intercept_
 
-    # Print the results
-    print(f"Slope: {slope}")
-    print(f"Intercept: {intercept}")
 
     # Predict using the model
     load_pred = model.predict(displacement_filtered_reshaped)
 
     # Plot the regression line for the filtered data
-    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (0.6 <= displacement <= 4.0)")
+    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (0.6 <= displacement <= 5.0)")
 
     # Create the second line with a slope of slope / 1.05, starting at the same intercept
     new_slope = slope / 1.05
@@ -52,13 +49,26 @@ def intersection_load(displacement,load):
     # Show the plot
     plt.show()
 
+    load_filtered=list(load_filtered)
+
+    #These lines refer to the original load-displacement curve
+    original_differences=list(np.abs(np.array(load_pred)-np.array(load_filtered)))
+    original_intersection_error=min(original_differences)
+    original_intersection_index=original_differences.index(original_intersection_error)
+    original_intersection_load=load_filtered[original_intersection_index]
+    original_intersection_displacement=displacement_filtered[original_intersection_index]
+
+    #These lines refer to the offset linearized line
     differences=list(np.abs(np.array(new_load_pred)-np.array(load_filtered)))
     intersection_error=min(differences)
     intersection_index=differences.index(intersection_error)
-    load_filtered=list(load_filtered)
     intersection_load=load_filtered[intersection_index]
+    intersection_displacement=displacement_filtered[intersection_index]
+
     
-    return intersection_load
+
+    return intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement
+
 
 
 
