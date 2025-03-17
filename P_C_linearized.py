@@ -69,7 +69,10 @@ def intersection_load(displacement,load):
     intersection_displacement=displacement_filtered[intersection_index]
 
     
+
     return intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement
+
+
 
 
 

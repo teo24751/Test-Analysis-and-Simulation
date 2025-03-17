@@ -22,13 +22,23 @@ def energy_integration(loads,displacements):
     return np.trapz(loads, x=displacements, axis=-1)
 
 def G_Q(thickness,width,loads,displacements,x):
-    return
+    U=energy_integration(loads,displacements)
+    return U/thickness/width/phi(x)
+
+def fracture_toughness():
+    return K_IC
+
+
 
 #Initial values
 
-width=1 #to be modified
+width=10 #to be modified
 thickness=1 #to be modified
 crack_length=1 #to be modified
+x=crack_length/width
+yield_stress=1
+ligament=width-crack_length
+
 
 for i in range(1,4):
     sample_number=i
@@ -41,17 +51,25 @@ for i in range(1,4):
 
     maximum_load=max(loads)
     displacement_at_max_load=displacements[loads.index(maximum_load)]
-
     intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement=P_C_linearized(displacements,loads)
-
+    
     if maximum_load/intersection_load>1.1:
         print("Test ",sample_number, " is invalid!")
-
     elif displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
-    
     else:
         P_Q=intersection_load
+
+    control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
+    if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
+        K_IC=K_Q(P_Q,thickness,width,x)
+    else:
+        print("Test ",sample_number, " is invalid!")
+
+    energy_release_rate=G_Q(thickness,width,loads,displacements,x)
+
+    K_IC, energy_release_rate
+
 
 
 
