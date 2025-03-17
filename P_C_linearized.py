@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 
 
-def offset_loads(displacement,load):
+def intersection_load(displacement,load):
     # Convert to numpy arrays for better manipulation
     displacement = np.array(displacement)
     load = np.array(load)
@@ -52,4 +52,16 @@ def offset_loads(displacement,load):
     # Show the plot
     plt.show()
 
-    return new_load_pred
+    differences=list(np.abs(np.array(new_load_pred)-np.array(load_filtered)))
+    intersection_error=min(differences)
+    intersection_index=differences.index(intersection_error)
+    load_filtered=list(load_filtered)
+    intersection_load=load_filtered[intersection_index]
+    
+    return intersection_load
+
+
+
+    
+
+    
