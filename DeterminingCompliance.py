@@ -3,7 +3,7 @@ import math
 import readData as rd
 import matplotlib.pyplot as plt
 
-array = rd.load_displacement_curve(3)
+array = rd.load_displacement_curve(1)
 
 def compliance(n,arr):
     return arr[n][1]/arr[n][0]
