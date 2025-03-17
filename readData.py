@@ -65,8 +65,35 @@ def plot_crack_curve(sampleNoList, framePlot = True):
     plt.title("Crack Length Propagation")
     plt.show()
 
+def lengthen_array(sampleNo):
+    long = load_displacement_curve(sampleNo)
+    short = crack_curve(sampleNo)
+    
+
+def plot_all_data():
+    ax1 = plt.subplot(311)
+    ax2 = plt.subplot(312)
+    ax3 = plt.subplot(313)
+    for i in range(1,4):
+        frm1 = load_displacement_curve(i)[:,-1]
+        frm2 = crack_curve(i)[:,-1]
+        ax1.plot(frm1, load_displacement_curve(i)[:,0], label="Sample "+str(i))
+        ax1.set_ylabel("Load [N]")
+
+        # share x only
+        ax2.plot(frm2, crack_curve(i)[:,0], label="Sample "+str(i))
+        ax2.set_ylabel("Crack Length [mm]")
+
+        # share x and y
+        ax3.plot(frm1, load_displacement_curve(i)[:,1], label="Sample "+str(i))
+        ax3.set_ylabel("Displacement [mm]")
+        ax3.set_xlabel("Frame")
+    plt.legend()
+    plt.show()
+
 #for testing
 if __name__ == "__main__":
     #plot_load_displacement_curve([1,2,3])
-    plot_crack_curve([1,2,3], framePlot=False)
+    #plot_crack_curve([1,2,3], framePlot=False)
     #crack_curve(3)
+    plot_all_data(1)
