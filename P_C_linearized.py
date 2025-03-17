@@ -3,15 +3,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-# Load the data
-data1 = rd.load_displacement_curve(3)
-print(data1)
-
-# Prepare the displacement and load lists
-displacement, load = [], []
-for i in range(len(data1)):
-    load.append(data1[i][0])  # Assuming the first element is load
-    displacement.append(data1[i][1])  # Assuming the second element is displacement
 
 def offset_loads(displacement,load):
     # Convert to numpy arrays for better manipulation

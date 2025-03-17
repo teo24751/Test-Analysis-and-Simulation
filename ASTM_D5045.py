@@ -88,11 +88,21 @@ y_displacement=list(readData.crack_curve(sample_number)[:,2]) #twice the displac
     #    actual_length-=1
 
 
-offset_loads=P_C_linearized(loads,displacements)
-differences=abs(loads,offset_loads)
+offset_loads=P_C_linearized.offset_loads(displacements,loads)[0]
+filtered_displacements=P_C_linearized.offset_loads(displacements,loads)[1]
+for i in enumerate(list(filtered_displacements),list(displacements)):
+    if 
+loads=loads[]
 
+print(offset_loads)
+print(filtered_displacements)
 
-intersection_load=loads[differences.index(min(abs(differences)))]
+differences=np.abs(np.array(offset_loads)-np.array())
+intersection_error=np.min(differences)
+print('Interse')
+idx=list(differences).index()
+
+intersection_load=loads[list(differences).index(min(abs(list(differences))))]
 intersection_displacement=displacements[differences.index(min(abs(differences)))]
 print(intersection_load)
 
