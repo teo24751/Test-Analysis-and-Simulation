@@ -7,7 +7,7 @@ import readData as rd
 from DeterminingCompliance import calculate_compliance
 
 
-P_crit = 1000 # Newton
+P_crit = 1 # Newton
 thickness = 0.008 # meter
 compliance_init = calculate_compliance()
 compliance = []

@@ -96,4 +96,4 @@ if __name__ == "__main__":
     #plot_load_displacement_curve([1,2,3])
     #plot_crack_curve([1,2,3], framePlot=False)
     #crack_curve(3)
-    plot_all_data(1)
+    plot_all_data()
