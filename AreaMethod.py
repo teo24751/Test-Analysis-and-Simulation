@@ -1,6 +1,6 @@
 import numpy as np
 
-def fracture_toughness(data, t=8, E=613406, v=0.3):
+def fracture_toughness(data, t=8, E=614e06, v=0.3):
     """
     data[0] = displacement [mm]
     data[1] = load
