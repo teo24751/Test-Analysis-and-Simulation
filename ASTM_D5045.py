@@ -32,6 +32,7 @@ width=1
 thickness=1
 loads=list(readData.load_displacement_curve(sample_number)[:,0])
 displacements=list(readData.load_displacement_curve(sample_number)[:,1])
+frames=list(readData.load_displacement_curve(sample_number)[:,2])
 #crack_lengths=np.array(readData.load_displacement_curve(sample_number)[:,2])
 #x=crack_lengths/width
 
