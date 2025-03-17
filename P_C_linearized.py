@@ -52,13 +52,27 @@ def intersection_load(displacement,load):
     # Show the plot
     plt.show()
 
+    load_filtered=list(load_filtered)
+
+    #These lines refer to the original load-displacement curve
+    original_differences=list(np.abs(np.array(load_pred)-np.array(load_filtered)))
+    original_intersection_error=min(original_differences)
+    original_intersection_index=original_differences.index(original_intersection_error)
+    original_intersection_load=load_filtered[original_intersection_index]
+    original_intersection_displacement=displacement_filtered[original_intersection_index]
+
+    #These lines refer to the offset linearized line
     differences=list(np.abs(np.array(new_load_pred)-np.array(load_filtered)))
     intersection_error=min(differences)
     intersection_index=differences.index(intersection_error)
-    load_filtered=list(load_filtered)
     intersection_load=load_filtered[intersection_index]
+    intersection_displacement=displacement_filtered[intersection_index]
+
     
-    return intersection_load
+
+    return intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement
+
+
 
 
 
