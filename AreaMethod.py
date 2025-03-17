@@ -1,15 +1,16 @@
 import numpy as np
 
-def fracture_toughness(data, t=8, E=614e06, v=0.3):
+def fracture_toughness(data, t=0.008, E=614e06, v=0.3):
     """
     data[0] = displacement [mm]
     data[1] = load
     data[2] = crack length
     t = thickness of the specimen [mm]
     """
+    data = np.transpose(np.array(data))
     G_IC = np.empty(len(data[0])-1)
     for i in range(len(data[0])-1):
-        G_IC[i] = ((data[1][i+1]*data[0][i] - data[1][i]*data[0][i+1])/(2 * (t / 1000) * (data[2][i+1]-data[2][i])))
+        G_IC[i] = ((data[1][i+1]*data[0][i] - data[1][i]*data[0][i+1])/(2 * (t) * (data[2][i+1]-data[2][i])))
 
 
     K_IC = np.sqrt((E * G_IC) / (1 - v**2))
