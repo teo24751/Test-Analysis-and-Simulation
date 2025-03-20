@@ -18,52 +18,6 @@ def G_IC_lam(K_IC, E_x, E_y, G_xy, v_xy):
     return ((K_IC ** 2) / (np.sqrt(2 * E_x * E_y))) * np.sqrt(np.sqrt(E_x / E_y) + (E_x / (E_y * G_xy)) - v_xy)
 
 
-def linear_regression(x, y):
-    n = len(x)
-    x_mean = np.mean(x)
-    y_mean = np.mean(y)
-    xy_mean = np.mean(x * y)
-    xx_mean = np.mean(x * x)
-    
-    slope = (xy_mean - x_mean * y_mean) / (xx_mean - x_mean ** 2)
-    intercept = y_mean - slope * x_mean
-    
-    return slope, intercept
-
-
-def intersection(slope, intercept, loaddisplacement):
-    newloaddisplacement = [point for point in loaddisplacement if point[1] > 2]
-
-    load = np.array([point[0] for point in newloaddisplacement])
-    displacement = np.array([point[1] for point in newloaddisplacement])
-
-    unique_displacement, unique_indices = np.unique(displacement, return_index=True)
-    unique_load = load[unique_indices]
-    curve = interp.interp1d(unique_displacement, unique_load, kind='cubic', fill_value='extrapolate')
-
-    def objective(x):
-        return curve(x) - (slope * x + intercept)
-
-    intersection_x = opt.fsolve(objective, x0=2)[0]
-    P_C = curve(intersection_x)
-
-    return P_C, intersection_x
-
-
-def main(loaddisplacement): # TODO: rename to fracture_toughness
-    lin_start = 1
-    lin_end = 3
-    linear_interval = [point for point in loaddisplacement if lin_start <= point[1] <= lin_end]
-
-    displacement = np.array([point[1] for point in linear_interval])
-    load = np.array([point[0] for point in linear_interval])
-
-    slope, intercept = linear_regression(displacement, load)
-
-    P_C, intersection_x = intersection(0.95 * slope, intercept, loaddisplacement)
-
-    return P_C, slope, intercept, intersection_x
-
 
 def fracture_toughness(data, crack_curve):
     load = list(data[:,0])
