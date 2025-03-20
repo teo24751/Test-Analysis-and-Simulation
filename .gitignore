@@ -174,6 +174,7 @@ cython_debug/
 .pypirc
 
 # IDEs
+.idea
 .idea/
 .vscode/
 *.sublime-project

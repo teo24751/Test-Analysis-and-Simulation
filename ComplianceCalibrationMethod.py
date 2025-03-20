@@ -9,7 +9,7 @@ from DeterminingCompliance import sample_number
 
 
 
-P_crit = 1 # Newton
+
 # Initial values and constants
 E = 0.614 * 10 ** 9 # Pa - Young's modulus
 
@@ -28,6 +28,7 @@ maximum_load=max(loads)
 critical_crack_length=crack_tip_length[loads.index(maximum_load)]
 print("Crack length", critical_crack_length)
 
+
 '''
 UNUSED CODE:
 xdata = [0,1,2,3,4,5,6,7,8,10]
@@ -41,10 +42,10 @@ amazing = rd.crack_curve(sample_number)
 for i in range(len(amazing)):
     crack_lengths.append(amazing[i][0])
 
-for i in range(20, len(amazing)*5+20, 5):
+for i in range(20, 451, 5):
     compliance.append(compliance_init[i])
-
-print("Crack Lengths", crack_lengths)
+print('test:',displacements[22],crack_lengths[22],loads[22])
+#print("Crack Lengths", crack_lengths)
 
 # Curve fitting
 def func(a,alpha,beta,chi):
