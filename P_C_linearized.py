@@ -10,7 +10,7 @@ def intersection_load(displacement,load):
     load = np.array(load)
 
     # Filter the data to include only displacements between 0.6 and 4.0
-    mask = (displacement >= 0.6) & (displacement <= 3.0)
+    mask = (displacement >= 1.0) & (displacement <= 3.0)
     displacement_filtered = displacement[mask]
     load_filtered = load[mask]
 
@@ -58,12 +58,14 @@ def intersection_load(displacement,load):
     original_intersection_load=load_filtered[original_intersection_index]
     original_intersection_displacement=displacement_filtered[original_intersection_index]
 
+    new_load_pred=new_slope * displacement + intercept
     #These lines refer to the offset linearized line
-    differences=list(np.abs(np.array(new_load_pred)-np.array(load_filtered)))
-    intersection_error=min(differences)
+    differences=list(np.abs(np.array(new_load_pred)-np.array(load)))
+    intersection_error=min(differences[40:])
+
     intersection_index=differences.index(intersection_error)
-    intersection_load=load_filtered[intersection_index]
-    intersection_displacement=displacement_filtered[intersection_index]
+    intersection_load=load[intersection_index]
+    intersection_displacement=displacement[intersection_index]
 
     
 
