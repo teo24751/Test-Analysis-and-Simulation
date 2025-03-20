@@ -76,7 +76,7 @@ def data_short(sampleNo):#trim load data
     shortDat[:,2] = cDat[:,0]#crack length
     shortDat[:,0] = short_lDat[:,1]#displacement
     shortDat[:,1] = short_lDat[:,0]#load
-    return shortDat
+    return shortDat#displacement , load , crack, frame
 
 def data_long():#interpolates crack length data
     pass

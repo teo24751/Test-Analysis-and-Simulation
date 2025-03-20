@@ -27,8 +27,8 @@ loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset])
 
 #get fracture toughness from methods
-AREAMETHOD = area.fracture_toughness(readData.data_short(1), t = specimenThickness)
-
+#AREAMETHOD = area.fracture_toughness(readData.data_short(1), t = specimenThickness)
+area.plot_gic(readData.data_short(1))
 #output fracture toughness
 print("Fracture toughnesses:")
 print(f"Area Method: {AREAMETHOD}")
