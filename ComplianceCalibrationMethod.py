@@ -11,7 +11,7 @@ from DeterminingCompliance import sample_number
 
 P_crit = 1 # Newton
 # Initial values and constants
-E = 614 * 10 ** 6 # Pa - Young's modulus
+E = 0.614 * 10 ** 9 # Pa - Young's modulus
 
 thickness = 0.008 # meter
 compliance_init = calculate_compliance()
@@ -22,7 +22,7 @@ compliance = [] # y data
 loads=list(rd.load_displacement_curve(sample_number)[:,0])
 displacements=list(rd.load_displacement_curve(sample_number)[:,1])
 P_crit = intersection_load(displacements,loads)[0] # Newton
-crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) #m
+crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) # m
 print(len(crack_tip_length), loads.index(max(loads)))
 maximum_load=max(loads)
 critical_crack_length=crack_tip_length[loads.index(maximum_load)]
@@ -50,14 +50,14 @@ print("Crack Lengths", crack_lengths)
 def func(a,alpha,beta,chi):
     return (alpha * a + beta)**chi
 
-epic = sp.optimize.curve_fit(func, crack_lengths, compliance, maxfev = 1000000)
+epic = sp.optimize.curve_fit(func, crack_lengths, compliance, maxfev = 100000)
 alpha, beta, chi = float(epic[0][0]), float(epic[0][1]), float(epic[0][2])
 t = np.arange(0.000, max(crack_lengths)+0.001, 0.001)
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
 # Plots the data and the fitted model
-plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
-plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
+#plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
+#plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
 plt.title('Crack-length - Compliance curve')
 plt.legend()
 plt.xlabel('Crack length')
@@ -96,11 +96,11 @@ for i in range(len(a_effective)):
 def calculate_K_IC(G_IC, E, v):
     return np.sqrt((E * G_IC)/(1-v**2)) # NOTE THAT THIS FORMULA ASSUMES LINEARITY OF THE STRESS STRAIN CURVE, AND THIS COULD NOT BE THE CASE FOR THE MATERIAL UNDER STUDY
 
- #   print(f"K_IC: {calculate_K_IC(i, E, 0.3)/10e6}  MPa m^0.5")
-#print(f"K_IC: {calculate_K_IC(100, E, 0.3)/10e6}  MPa m^0.5")
+# print(f"K_IC: {calculate_K_IC(i, E, 0.3)/10e6}  MPa m^0.5")
+# print(f"K_IC: {calculate_K_IC(100, E, 0.3)/10e6}  MPa m^0.5")
 
 plt.plot(crack_lengths, G_IC_list)
-plt.title('Crack-length - Energy release rate curve')
+plt.title(f'Crack-length - Energy release rate curve')
 plt.xlabel('Crack length [m]')
 plt.ylabel('Energy release rate [J/m^2]')
 plt.show()
