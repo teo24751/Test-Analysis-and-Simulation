@@ -6,7 +6,7 @@ import P_C_linearized
 #Initial values
 width=70/1000 #m
 thickness=8/1000 #m
-yield_stress=150*10**6 #Pa
+yield_stress=67*10**6 #Pa
 
 def f(x):
     return ((2+x)*(0.886+4.64*x-13.32*x**2+14.72*x**3-5.6*x**4))/(1-x)**1.5
@@ -30,7 +30,10 @@ def fracture_toughness(sample_number):
 def energy_release_rate(sample_number):
     return sample(sample_number)[1]
 
+
+
 def sample(sample_number):
+    error=0
     loads=list(readData.load_displacement_curve(sample_number)[:,0]) #N
     displacements=list(readData.load_displacement_curve(sample_number)[:,1]) #mm
     frames=list(readData.load_displacement_curve(sample_number)[:,2])
@@ -45,28 +48,35 @@ def sample(sample_number):
     ligament=width-crack_length
 
 
-    if maximum_load/intersection_load>1.1:
-        print("Test ",sample_number, " is invalid due to max load!")
-        print(maximum_load,intersection_load)
+    #if maximum_load/intersection_load>1.1:
+       # print("Test ",sample_number, " is invalid due to max load!")
+    print(maximum_load/intersection_load)
+       # error=1
+        #return(error)
         
-    elif displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
+    if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
         control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
-        if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
-            K_IC=K_Q(P_Q,thickness,width,x)
-            G_IC=G_Q(thickness,width,loads,displacements/1000,x)
-            return K_IC,G_IC
-        else:
-            print("Test ",sample_number, " is invalid!")
+        #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
+        K_IC=K_Q(P_Q,thickness,width,x)
+        G_IC=G_Q(thickness,width,loads,displacements/1000,x)
+        return K_IC,G_IC
+        #else:
+            #print("Test ",sample_number, " is invalid!")
+            #error=1
+            #return(error)
     else:
         P_Q=intersection_load
         control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
-        if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
-            K_IC=K_Q(P_Q,thickness,width,x)
-            G_IC=G_Q(thickness,width,loads,displacements,x)
-            return K_IC,G_IC
-        else:
-            print("Test ",sample_number, " is invalid!")
-    
-print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(2)*10**(-6))
-print('Critical energy release rate: ',energy_release_rate(2))
+        #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
+        K_IC=K_Q(P_Q,thickness,width,x)
+        G_IC=G_Q(thickness,width,loads,displacements,x)
+        return K_IC,G_IC
+        #else:
+            #print("Test ",sample_number, " is invalid!")
+            #error=1
+            #return(error)
+
+
+print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(3)*10**(-6))
+print('Critical energy release rate: ',energy_release_rate(3))
