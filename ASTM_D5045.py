@@ -67,7 +67,12 @@ def sample(sample_number):
        # print("Test ",sample_number, " is invalid due to max load!")
        # error=1
         #return(error)
-    for i in range()
+    #ratios=[]
+    #for i in list(crack_tip_length):
+     #   ratio=i/width
+      #  ratios.append(f(ratio))
+    #fracture_toughnesses=np.array(loads)/thickness/math.sqrt(width)/np.array(ratios)
+    #print(fracture_toughnesses)
         
     if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
@@ -76,7 +81,7 @@ def sample(sample_number):
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
-        return K_IC,G_IC
+        return K_IC,G_IC#,fracture_toughnesses
         #else:
             #print("Test ",sample_number, " is invalid!")
             #error=1
@@ -88,7 +93,7 @@ def sample(sample_number):
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
-        return K_IC,G_IC
+        return K_IC,G_IC#,fracture_toughnesses
         #else:
             #print("Test ",sample_number, " is invalid!")
             #error=1
