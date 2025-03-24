@@ -7,7 +7,6 @@ import P_C_linearized
 import readData
 
 def K_IC_func(P_c, a, t=8e-3, w=0.070):
-def K_IC_func(P_c, a, t=8e-3, w=0.070):
     return (P_c * faw_func(a/w)) / (t * np.sqrt(w))
 
 
