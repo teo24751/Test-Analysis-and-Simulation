@@ -31,7 +31,7 @@ def intersection_load(displacement,load):
     load_pred = model.predict(displacement_filtered_reshaped)
 
     # Plot the regression line for the filtered data
-    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (0.6 <= displacement <= 4.0)")
+    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (1.0 <= displacement <= 3.0)")
 
     # Create the second line with a slope of slope / 1.05, starting at the same intercept
     new_slope = slope / 1.05
