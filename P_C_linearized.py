@@ -6,10 +6,9 @@ import numpy as np
 
 def intersection_load(displacement,load):
     # Convert to numpy arrays for better manipulation
-    displacement = np.array(displacement)
+    displacement = np.array(displacement)*1000
     load = np.array(load)
-
-    # Filter the data to include only displacements between 0.6 and 4.0
+    # Filter the data to include only displacements between 1.0 and 3.0
     mask = (displacement >= 1.0) & (displacement <= 3.0)
     displacement_filtered = displacement[mask]
     load_filtered = load[mask]
@@ -29,7 +28,6 @@ def intersection_load(displacement,load):
 
     # Predict using the model
     load_pred = model.predict(displacement_filtered_reshaped)
-
     # Plot the regression line for the filtered data
     plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (1.0 <= displacement <= 3.0)")
 

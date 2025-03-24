@@ -34,9 +34,10 @@ def energy_release_rate(sample_number):
 
 
 def sample(sample_number):
-    error=0
     loads=list(readData.load_displacement_curve(sample_number)[:,0]) #N
+    
     displacements=list(readData.load_displacement_curve(sample_number)[:,1]) #mm
+    
     #frames=list(readData.load_displacement_curve(sample_number)[:,2])
     crack_tip_length=list(readData.crack_curve(sample_number)[:,0]) #m
     
@@ -81,7 +82,7 @@ def sample(sample_number):
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
-        return K_IC,G_IC#,fracture_toughnesses
+        return K_IC,G_IC
         #else:
             #print("Test ",sample_number, " is invalid!")
             #error=1
@@ -93,12 +94,13 @@ def sample(sample_number):
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
-        return K_IC,G_IC#,fracture_toughnesses
+        return K_IC,G_IC
         #else:
             #print("Test ",sample_number, " is invalid!")
             #error=1
             #return(error)
+#P_C_linearized.intersection_load(list(readData.load_displacement_curve(1)[:,1]),list(readData.load_displacement_curve(1)[:,0]))
 
-print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(3)*10**(-6))
-print('Critical energy release rate: ',fracture_toughness(3)**2*(1-0.3**2)/(614*10**6))
+print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(1)*10**(-6))
+print('Critical energy release rate: ',fracture_toughness(1)**2*(1-0.3**2)/(614*10**6))
 #Average of the three values as the fracture toughness!
