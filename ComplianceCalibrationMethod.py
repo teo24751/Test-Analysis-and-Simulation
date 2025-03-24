@@ -26,9 +26,18 @@ crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) # m
 #print(len(crack_tip_length), loads.index(max(loads)))
 maximum_load=max(loads)
 critical_crack_length=crack_tip_length[loads.index(maximum_load)]
-print("Crack length", critical_crack_length)
 
+loads_new=[]
+displacements_new=[]
+for i in range(20,451,5):
+    loads_new.append(loads[i])
+    displacements_new.append(displacements[i])
+loads=loads_new
+displacements=displacements_new
+print("Displacements New", displacements_new)
+print("Critical crack length", critical_crack_length)
 
+print(len(loads), len(crack_tip_length))
 '''
 UNUSED CODE:
 xdata = [0,1,2,3,4,5,6,7,8,10]
@@ -36,7 +45,6 @@ ydata = [0,1,2,3,4,5,6,7,8,10]
 #epic = sp.optimize.curve_fit(func, xdata, ydata, maxfev = 1000)
 '''
 
-#
 amazing = rd.crack_curve(sample_number)
 
 for i in range(len(amazing)):
@@ -57,8 +65,8 @@ t = np.arange(0.000, max(crack_lengths)+0.001, 0.001)
 print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
 # Plots the data and the fitted model
-#plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
-#plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
+plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
+plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
 plt.title('Crack-length - Compliance curve')
 plt.legend()
 plt.xlabel('Crack length')
@@ -69,12 +77,12 @@ plt.show()
 # Calculates G_IC (energy release rate) from the fitted model
 def G_IC(a, P_crit, alpha, beta, chi, thickness):
     return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
-
+print(f"Critical load {P_crit} N")
 G_IC_list = []
 
 for i in range(len(compliance)):
     G_IC_list.append(G_IC(crack_lengths[i], P_crit, alpha, beta, chi, thickness))
-
+print(G_IC_list)
 '''
 MODIFIED COMPLIANCE CALIBRATION METHOD:
 def a_eff(C, n, alpha, beta, chi):
@@ -97,6 +105,16 @@ for i in range(len(a_effective)):
 def fracture_toughness(G_IC, E, v):
     return np.sqrt((E * G_IC)/(1-v**2)) # NOTE THAT THIS FORMULA ASSUMES LINEARITY OF THE STRESS STRAIN CURVE, AND THIS COULD NOT BE THE CASE FOR THE MATERIAL UNDER STUDY
 
+# Find the index of the maximum load
+max_load_index = loads.index(max(loads))
+
+K_ICs = []
+for i in range(len(loads) - max_load_index):
+    G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness)
+    K_ICs.append(calculate_K_IC(G, E, 0.3)/(10 ** 6))
+print(f"K_ICs: {K_ICs} \n (starting from index {max_load_index})")
+# print(f"K_IC: {calculate_K_IC(i, E, 0.3)/10e6}  MPa m^0.5")
+# print(f"K_IC: {calculate_K_IC(100, E, 0.3)/10e6}  MPa m^0.5")
 # print(f"K_IC: {fracture_toughness(i, E, 0.3)/10e6}  MPa m^0.5")
 # print(f"K_IC: {fracture_toughness(100, E, 0.3)/10e6}  MPa m^0.5")
 
@@ -113,6 +131,9 @@ crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
 
 print(f"Critical crack length is {critical_crack_length} m")
 print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/1e6} MPam^0.5")
+
+print(displacements)
+
 
 '''
 NOTES:

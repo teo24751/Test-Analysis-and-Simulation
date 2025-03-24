@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 sample_number = 3
 
 array = rd.load_displacement_curve(sample_number)
-
+print(array[i][0] for i in range(0,50))
 def compliance(n,arr):
-    return arr[n][1]/arr[n][0]/1000
+    return arr[n][1]/arr[n][0]
 
 
 compl = []
