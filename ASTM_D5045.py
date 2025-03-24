@@ -67,6 +67,7 @@ def sample(sample_number):
        # print("Test ",sample_number, " is invalid due to max load!")
        # error=1
         #return(error)
+    for i in range()
         
     if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
@@ -93,5 +94,6 @@ def sample(sample_number):
             #error=1
             #return(error)
 
-print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(1)*10**(-6))
-print('Critical energy release rate: ',fracture_toughness(1)**2*(1-0.3**2)/(614*10**6))
+print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(3)*10**(-6))
+print('Critical energy release rate: ',fracture_toughness(3)**2*(1-0.3**2)/(614*10**6))
+#Average of the three values as the fracture toughness!
