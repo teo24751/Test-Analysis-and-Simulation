@@ -68,12 +68,14 @@ def sample(sample_number):
        # print("Test ",sample_number, " is invalid due to max load!")
        # error=1
         #return(error)
-    #ratios=[]
-    #for i in list(crack_tip_length):
-     #   ratio=i/width
-      #  ratios.append(f(ratio))
-    #fracture_toughnesses=np.array(loads)/thickness/math.sqrt(width)/np.array(ratios)
-    #print(fracture_toughnesses)
+    ratios=[]
+    for i in list(crack_tip_length):
+        ratio=i/width
+        ratios.append(f(ratio))
+    print('Loads: ',loads)
+    print(crack_tip_length)
+    fracture_toughnesses=(np.array(loads)/thickness/math.sqrt(width)/np.array(ratios))*10**(-6)
+    print('Fracture toughnesses: ',fracture_toughnesses)
         
     if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
