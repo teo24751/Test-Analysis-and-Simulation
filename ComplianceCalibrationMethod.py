@@ -130,6 +130,9 @@ crit_K_IC = calculate_K_IC(crit_G_IC, E, 0.3)
 print(f"Critical crack length is {critical_crack_length} m")
 print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/1e6} MPam^0.5")
 
+print(displacements)
+
+
 '''
 NOTES:
 - assumed linearity of the stress-strain curve to convert G_IC to K_IC
