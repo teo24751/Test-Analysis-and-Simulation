@@ -7,6 +7,7 @@ import P_C_linearized
 import readData
 
 def K_IC_func(P_c, a, t=8e-3, w=0.070):
+def K_IC_func(P_c, a, t=8e-3, w=0.070):
     return (P_c * faw_func(a/w)) / (t * np.sqrt(w))
 
 
@@ -42,9 +43,18 @@ def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
     # else:
     #     print("Intersection load")
     #     P_Q = intersection_load
+    # if displacement_at_max_load > original_intersection_displacement and displacement_at_max_load < intersection_displacement:
+    #     print("Max load")
+    #     P_Q = max_load
+    # else:
+    #     print("Intersection load")
+    #     P_Q = intersection_load
 
     # print(f"P_Q: {P_Q}")
+    # print(f"P_Q: {P_Q}")
 
+    # K_IC = K_IC_func(P_Q, crack_length)
+    K_IC = K_IC_func(load_new, crack_tip)
     # K_IC = K_IC_func(P_Q, crack_length)
     K_IC = K_IC_func(load_new, crack_tip)
     G_IC = G_IC_lam(K_IC, E, v)
@@ -54,9 +64,14 @@ def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
 
 if __name__ == "__main__":
     sample = 3
+    sample = 3
     data = readData.load_displacement_curve(sample)
     crack_curve = readData.crack_curve(sample)
     K_IC, G_IC = fracture_toughness(data, crack_curve)
+    print(K_IC, G_IC)
+    # print(f"fracture tougness: {K_IC} Pa m^0.5")
+    # print(f"energy release rate: {G_IC} J/m^2")
+    # print(f"E = { (K_IC ** 2) / G_IC }")
     print(K_IC, G_IC)
     # print(f"fracture tougness: {K_IC} Pa m^0.5")
     # print(f"energy release rate: {G_IC} J/m^2")
