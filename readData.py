@@ -18,13 +18,13 @@ def readLD(sampleNo,colNo):
     return np.array(datList)
 
 def load_displacement_curve(sampleNo):
-    LD = np.stack((readLD(sampleNo,5),readLD(sampleNo,6),readLD(sampleNo,0)), axis=1)
+    LD = np.stack((readLD(sampleNo,5),readLD(sampleNo,6)/1000,readLD(sampleNo,0)), axis=1)
     return LD
 
 def plot_load_displacement_curve(sampleNoList):
     for i in sampleNoList:
         curve = load_displacement_curve(i)
-        plt.plot(curve[:,1],curve[:,0], label="Sample "+str(i))
+        plt.plot(curve[:,1]*1000,curve[:,0], label="Sample "+str(i))
     plt.xlabel("Displacement [mm]") 
     plt.ylabel("Load [N]")
     plt.legend()
@@ -48,16 +48,14 @@ def crack_curve(sampleNo):
     CC = np.stack((readCrack(sampleNo,2), readCrack(sampleNo,4), readCrack(sampleNo,1), readCrack(sampleNo,0)), axis = 1)
     #print(CC)
     return CC
-print(len(crack_curve(1)))
-print(len(crack_curve(2)))
-print(len(crack_curve(3)))
+
 def plot_crack_curve(sampleNoList, framePlot = True):
     for i in sampleNoList:
         curve = crack_curve(i)
         if framePlot:
-            plt.plot(curve[:,3],curve[:,0], label="Sample "+str(i))
+            plt.plot(curve[:,3],curve[:,0]*1000, label="Sample "+str(i))
         else:
-            plt.plot(curve[:,2],curve[:,0], label="Sample "+str(i))
+            plt.plot(curve[:,2],curve[:,0]*1000, label="Sample "+str(i))
     #plt.xlabel("Y-displacement [mm]") 
     plt.xlabel("Y-Displacement [mm]") 
     if framePlot:
@@ -71,7 +69,7 @@ def data_short(sampleNo):#trim load data
     lDat = load_displacement_curve(sampleNo)
     cDat = crack_curve(sampleNo)
     frameNo = cDat.shape[0]
-    frames = cDat[:,-1].astype(np.int64)    
+    frames = cDat[:,-1].astype(np.int64)
     short_lDat = lDat[frames]
     shortDat = np.zeros((frameNo,4))
     shortDat[:,-1] = cDat[:,-1]#frame number
@@ -94,11 +92,11 @@ def plot_all_data():
         ax1.set_ylabel("Load [N]")
 
         # share x only
-        ax2.plot(frm2, crack_curve(i)[:,0], label="Sample "+str(i))
+        ax2.plot(frm2, crack_curve(i)[:,0]*1000, label="Sample "+str(i))
         ax2.set_ylabel("Crack Length [mm]")
 
         # share x and y
-        ax3.plot(frm1, load_displacement_curve(i)[:,1], label="Sample "+str(i))
+        ax3.plot(frm1, load_displacement_curve(i)[:,1]*1000, label="Sample "+str(i))
         ax3.set_ylabel("Displacement [mm]")
         ax3.set_xlabel("Frame")
     plt.legend()

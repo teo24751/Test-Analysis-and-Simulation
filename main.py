@@ -23,22 +23,23 @@ specimenWidth = 0.07 #[m]
 specimenHeight = 0.06 #[m]
 specimenThickness = 0.008 #[m]
 initialCrackLength = 0.013 #[m]
+youngsModulus = 614e6#[Pa]
 loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset])
 
 #get fracture toughness from methods
 #AREAMETHOD = area.fracture_toughness(readData.data_short(1), t = specimenThickness)
-area.plot_gic(readData.data_short(1))
+
 #output fracture toughness
 print("Fracture toughnesses:")
-print(f"Area Method: {AREAMETHOD}")
+#print(f"Area Method: {AREAMETHOD}")
 print(f"ASTM D5045: {5}")
 print(f"ASTM E399: {5}")
 print(f"Compliance: {5}")
 print(f"Modified Compliance: {5}")
 
 #graph crack length
-#area.fracture_toughness()
+area.plot_gic(readData.data_short(2))
 
 #graph load-displacement
 readData.plot_all_data()
