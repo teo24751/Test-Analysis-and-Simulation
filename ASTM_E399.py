@@ -23,9 +23,9 @@ def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
     load = list(data[:,0])
     displacement = list(data[:,1])
     max_load = max(load)
-    displacement_at_max_load = displacement[load.index(max_load)]
+    # displacement_at_max_load = displacement[load.index(max_load)]
     crack_tip = crack_curve[:,0]
-    crack_length = crack_tip[np.ceil(load.index(max_load)/5)]
+    # crack_length = crack_tip[np.ceil(load.index(max_load)/5)]
     
     load_new = []
     displacement_new = []
