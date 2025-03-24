@@ -16,7 +16,6 @@ def K_Q(P_Q,thickness,width,x):
 
 def phi(x):
     phi=(1.9118+19.118*x-2.5122*x**2-23.226*x**3+20.54*x**4)*(1-x)/((19.118-5.0244*x-69.678*x**2+82.16*x**3)*(1-x)+2*(1.9118+19.118*x-2.5122*x**2-23.226*x**3+20.54*x**4))
-    print('Phi: ',phi)
     return phi
 
 def energy_integration(loads,displacements):
@@ -24,7 +23,6 @@ def energy_integration(loads,displacements):
 
 def G_Q(thickness,width,loads,displacements,x):
     U=energy_integration(loads,displacements)
-    print('Integration value: ',U)
     return U/(thickness)/(width)/phi(x)
 
 def fracture_toughness(sample_number):
@@ -44,8 +42,6 @@ def sample(sample_number):
     
     
     intersection_load,intersection_displacement,original_intersection_load,original_intersection_displacement=P_C_linearized.intersection_load(displacements,loads)
-    print("Crack array length: ",len(crack_tip_length))
-    print("Loads array length: ",len(loads))
     loads_new=[]
     displacements_new=[]
     for i in range(20,451,5):
@@ -58,6 +54,7 @@ def sample(sample_number):
 
     maximum_load=max(loads)
     print('Maximum load: ',maximum_load)
+    print('Intersection load: ',intersection_load)
     crack_length=crack_tip_length[loads.index(maximum_load)]
     displacement_at_max_load=displacements[loads.index(maximum_load)]#mm
     
@@ -68,7 +65,6 @@ def sample(sample_number):
 
     #if maximum_load/intersection_load>1.1:
        # print("Test ",sample_number, " is invalid due to max load!")
-    print(maximum_load/intersection_load)
        # error=1
         #return(error)
         
