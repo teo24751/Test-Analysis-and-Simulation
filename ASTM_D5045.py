@@ -97,5 +97,5 @@ def sample(sample_number):
             #error=1
             #return(error)
 
-print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(3)*10**(-6))
-print('Critical energy release rate: ',energy_release_rate(3))
+print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(1)*10**(-6))
+print('Critical energy release rate: ',fracture_toughness(1)**2*(1-0.3**2)/(614*10**6))
