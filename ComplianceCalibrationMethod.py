@@ -23,7 +23,7 @@ loads=list(rd.load_displacement_curve(sample_number)[:,0])
 displacements=list(rd.load_displacement_curve(sample_number)[:,1])
 P_crit = intersection_load(displacements,loads)[0] # Newton
 crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) # m
-print(len(crack_tip_length), loads.index(max(loads)))
+#print(len(crack_tip_length), loads.index(max(loads)))
 maximum_load=max(loads)
 critical_crack_length=crack_tip_length[loads.index(maximum_load)]
 print("Crack length", critical_crack_length)
@@ -94,11 +94,11 @@ for i in range(len(a_effective)):
 '''
 
 # Determine K_IC from G_IC
-def calculate_K_IC(G_IC, E, v):
+def fracture_toughness(G_IC, E, v):
     return np.sqrt((E * G_IC)/(1-v**2)) # NOTE THAT THIS FORMULA ASSUMES LINEARITY OF THE STRESS STRAIN CURVE, AND THIS COULD NOT BE THE CASE FOR THE MATERIAL UNDER STUDY
 
-# print(f"K_IC: {calculate_K_IC(i, E, 0.3)/10e6}  MPa m^0.5")
-# print(f"K_IC: {calculate_K_IC(100, E, 0.3)/10e6}  MPa m^0.5")
+# print(f"K_IC: {fracture_toughness(i, E, 0.3)/10e6}  MPa m^0.5")
+# print(f"K_IC: {fracture_toughness(100, E, 0.3)/10e6}  MPa m^0.5")
 
 plt.plot(crack_lengths, G_IC_list)
 plt.title(f'Crack-length - Energy release rate curve')
@@ -109,7 +109,7 @@ plt.show()
 
 # CRITICAL G_IC AND K_IC VALUES
 crit_G_IC = (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * critical_crack_length + beta) ** (chi -1)
-crit_K_IC = calculate_K_IC(crit_G_IC, E, 0.3)
+crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
 
 print(f"Critical crack length is {critical_crack_length} m")
 print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/1e6} MPam^0.5")

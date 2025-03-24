@@ -102,13 +102,18 @@ def plot_all_data():
     plt.legend()
     plt.show()
 
+def plot_short(short, curve):
+    plt.plot(short[:,0],short[:,1])
+    plt.plot(curve[:,1],curve[:,0])
+    plt.show()
+
 #for testing
 if __name__ == "__main__":
     #plot_load_displacement_curve([2])
     #plot_crack_curve([1,2,3], framePlot=False)
     #crack_curve(3)
 
-    plot_all_data()
+    plot_short(data_short(1),load_displacement_curve(1))
 
     #print(data_short(1))
     pass
