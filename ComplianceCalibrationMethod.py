@@ -7,12 +7,9 @@ from P_C_linearized import intersection_load
 #from ASTM_D5045 import crack_lengths
 from DeterminingCompliance import sample_number
 
-
-
-
 # Initial values and constants
 E = 0.614 * 10 ** 9 # Pa - Young's modulus
-
+h = 0.00001
 thickness = 0.008 # meter
 compliance_init = calculate_compliance()
 crack_lengths = [] # x data
@@ -73,10 +70,13 @@ plt.xlabel('Crack length')
 plt.ylabel('Compliance')
 plt.show()
 
+def derivative(a,alpha,beta,chi,h):
+    return (func(a+h, alpha, beta, chi)-func(a,alpha,beta,chi))/(h)
+
 
 # Calculates G_IC (energy release rate) from the fitted model
 def G_IC(a, P_crit, alpha, beta, chi, thickness):
-    return (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * a + beta) ** (chi -1)
+    return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)          # * alpha * chi * (alpha * a + beta) ** (chi -1)
 print(f"Critical load {P_crit} N")
 G_IC_list = []
 
@@ -111,7 +111,7 @@ max_load_index = loads.index(max(loads))
 K_ICs = []
 for i in range(len(loads) - max_load_index):
     G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness)
-    K_ICs.append(calculate_K_IC(G, E, 0.3)/(10 ** 6))
+    K_ICs.append(fracture_toughness(G, E, 0.3)/(10 ** 6))
 print(f"K_ICs: {K_ICs} \n (starting from index {max_load_index})")
 # print(f"K_IC: {calculate_K_IC(i, E, 0.3)/10e6}  MPa m^0.5")
 # print(f"K_IC: {calculate_K_IC(100, E, 0.3)/10e6}  MPa m^0.5")
@@ -126,14 +126,11 @@ plt.show()
 
 
 # CRITICAL G_IC AND K_IC VALUES
-crit_G_IC = (P_crit ** 2) / (2 * thickness) * alpha * chi * (alpha * critical_crack_length + beta) ** (chi -1)
+crit_G_IC = (P_crit ** 2) / (2 * thickness) * derivative(critical_crack_length,alpha,beta,chi,h)
 crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
 
 print(f"Critical crack length is {critical_crack_length} m")
 print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/1e6} MPam^0.5")
-
-#print(displacements)
-
 
 '''
 NOTES:
