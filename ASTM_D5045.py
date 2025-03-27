@@ -91,7 +91,7 @@ def sample(sample_number):
         
     if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
-        print('P_Q: ',P_Q)
+        #print('P_Q: ',P_Q)
         #control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
@@ -103,7 +103,7 @@ def sample(sample_number):
             #return(error)
     else:
         P_Q=intersection_load
-        print('P_Q: ',P_Q)
+        #print('P_Q: ',P_Q)
         #control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
         #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
         K_IC=K_Q(P_Q,thickness,width,x)
