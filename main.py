@@ -10,8 +10,8 @@ import DeterminingCompliance as complianceDet
 
 #fracture toughness calculation methods
 import AreaMethod as area
-import ASTM_D5045 as d5045
-import ASTM_E399 as e399
+#import ASTM_D5045 as d5045
+#import ASTM_E399 as e399
 #import ComplianceCalibrationMethod as ccm
 
 #data arrays -- np arrays, 2D
@@ -37,8 +37,8 @@ print("Fracture toughnesses, sample 1:")
 dat = readData.load_displacement_curve(1)
 crack = readData.crack_curve(1)
 short = readData.data_short(1)
-print(f"ASTM D5045: {d5045.fracture_toughness(1)}")
-print(f"ASTM E399: {e399.fracture_toughness(dat, crack)}")
+#print(f"ASTM D5045: {d5045.fracture_toughness(1)}")
+#print(f"ASTM E399: {e399.fracture_toughness(dat, crack)}")
 print(f"Area method: {area.fracture_toughness(short)[1]}")
 #print(f"Compliance: {ccm.fra}")
 print(f"Modified Compliance: {5}")
