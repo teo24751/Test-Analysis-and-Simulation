@@ -38,13 +38,15 @@ for sample_number in range(1,4):
     method_e399=e399.fracture_toughnesses(sample_number)
     method_area=area.fracture_toughnesses(sample_number)
     method_ccm=ccm.fracture_toughnesses(sample_number)
-    plt.subplot(310+sample_number)
-    plt.plot(frames,method_d5045)
-    plt.plot(frames,method_e399)
-    plt.plot(frames,method_area)
-    plt.plot(frames,method_ccm)
+   
+    plt.subplot(3,1,sample_number)
+    plt.clf()
+    plt.plot(frames,method_d5045,color='green')
+    plt.plot(frames,np.array(method_e399)*10**(-6),color='red')
+    plt.plot(frames,np.array(method_area)*10**(-6),color='blue')
+    plt.plot(frames,method_ccm,color='black')
     plt.xlabel('Frame number')
     plt.ylabel('Fracture toughness')
-
+    plt.show()
 
 
