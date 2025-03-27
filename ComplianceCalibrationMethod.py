@@ -10,10 +10,7 @@ def fracture_toughnesses(sample_number):
     array = rd.load_displacement_curve(sample_number)
 
     def compliance(n, arr):
-        if (arr[n][1] - 8.090e-04) / arr[n][0] > 0:
-            return (arr[n][1] - 8.090e-04) / arr[n][0]
-        else:
-            return 0
+        return (arr[n][1]) / arr[n][0]
 
     compl = []
 
@@ -127,13 +124,13 @@ def fracture_toughnesses(sample_number):
     crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
 
     #print(f"Critical crack length is {critical_crack_length} m")
-    #print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
+    print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
 
 
     return K_ICs
 
 
-
+fracture_toughnesses(1)
 '''
 NOTES:
 - assumed linearity of the stress-strain curve to convert G_IC to K_IC
