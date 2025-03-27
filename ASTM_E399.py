@@ -51,6 +51,11 @@ def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
 
     return K_IC, G_IC, K_IC_PC, G_IC_PC
 
+def fracture_toughnesses(sampleNo):
+    data = readData.load_displacement_curve(sampleNo)
+    crack_curve = readData.crack_curve(sampleNo)
+    K_IC, _, _, _ = fracture_toughness(data, crack_curve)
+    return K_IC
 
 if __name__ == "__main__":
     sample = 3
