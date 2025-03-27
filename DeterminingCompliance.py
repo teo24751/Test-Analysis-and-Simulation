@@ -3,7 +3,7 @@ import math
 import readData as rd
 import matplotlib.pyplot as plt
 
-sample_number = 3
+sample_number = 2
 
 array = rd.load_displacement_curve(sample_number)
 print(array[i][0] for i in range(0,50))
