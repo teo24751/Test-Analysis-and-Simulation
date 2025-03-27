@@ -8,8 +8,12 @@ from P_C_linearized import intersection_load
 
 def fracture_toughnesses(sample_number):
     array = rd.load_displacement_curve(sample_number)
-    def compliance(n,arr):
-        return arr[n][1]/arr[n][0]
+
+    def compliance(n, arr):
+        if (arr[n][1] - 8.090e-04) / arr[n][0] > 0:
+            return (arr[n][1] - 8.090e-04) / arr[n][0]
+        else:
+            return 0
 
     compl = []
 
@@ -73,13 +77,13 @@ def fracture_toughnesses(sample_number):
     #print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
     # Plots the data and the fitted model
-    plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
-    plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
-    plt.title('Crack-length - Compliance curve')
-    plt.legend()
-    plt.xlabel('Crack length')
-    plt.ylabel('Compliance')
-    plt.show()
+    ###plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
+    ###plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
+    ###plt.title('Crack-length - Compliance curve')
+    ###plt.legend()
+    ###plt.xlabel('Crack length')
+    ###plt.ylabel('Compliance')
+    ###plt.show()
 
     def derivative(a,alpha,beta,chi,h):
         return (func(a+h, alpha, beta, chi)-func(a,alpha,beta,chi))/(h)
@@ -111,11 +115,11 @@ def fracture_toughnesses(sample_number):
     for i in range(len(K_ICs)):
         iter.append(i)
 
-    plt.plot(iter, K_ICs)
-    plt.title(f'Crack-length - Energy release rate curve')
-    plt.xlabel('Crack length [m]')
-    plt.ylabel('Energy release rate [J/m^2]')
-    plt.show()
+    ###plt.plot(iter, K_ICs)
+    ###plt.title(f'Crack-length - Energy release rate curve')
+    ###plt.xlabel('Crack length [m]')
+    ###plt.ylabel('Energy release rate [J/m^2]')
+    ###plt.show()
 
 
     # CRITICAL G_IC AND K_IC VALUES

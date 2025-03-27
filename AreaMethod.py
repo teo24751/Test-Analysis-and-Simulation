@@ -21,7 +21,8 @@ def G_IC(short_data, t=0.008, v = 0.3):#Calculates the energy release rate G_IC
     #print(gic)
     return gic
 
-def fracture_toughness(short_data, E = 614e6, v=0.3):
+def fracture_toughnesses(sampleNo, E = 614e6, v=0.3):
+    short_data = readData.data_short(sampleNo)
     ePrime = E/(1-v*v)
     gic = G_IC(short_data)
     kic = gic
@@ -30,15 +31,13 @@ def fracture_toughness(short_data, E = 614e6, v=0.3):
     #print("K_IC DATA")
     #print(kic)
     ft = np.mean(kic[15:,0])
-    return kic,ft
+    return kic
 
 def plot_gic(short_data):
     ax1 = plt.subplot(121)
     ax2 = plt.subplot(122)
     gicdat = G_IC(short_data)
-    kicdat = fracture_toughness(short_data)[0]
-    #print("KICDAT")
-    #print(kicdat)
+    kicdat = fracture_toughnesses(short_data)
     ax1.plot(gicdat[:,0], gicdat[:,1])
     ax2.plot(kicdat[:,0], kicdat[:,1])
     plt.show()

@@ -30,25 +30,6 @@ youngsModulus = 614e6#[Pa]
 loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset])
 
-#get fracture toughness from methods
-
-#output fracture toughness
-print("Fracture toughnesses, sample 1:")
-dat = readData.load_displacement_curve(1)
-crack = readData.crack_curve(1)
-short = readData.data_short(1)
-print(f"ASTM D5045: {d5045.fracture_toughness(1)}")
-print(f"ASTM E399: {e399.fracture_toughness(dat, crack)}")
-print(f"Area method: {area.fracture_toughness(short)[1]}")
-#print(f"Compliance: {ccm.fra}")
-print(f"Modified Compliance: {5}")
-
-#graph crack length
-area.plot_gic(readData.data_short(1))
-
-#graph load-displacement
-#readData.plot_all_data()
-
 #Different plots for different samples
 #In one figure, all the methods are plotted for comparison
 for sample_number in range(1,4):
@@ -57,13 +38,15 @@ for sample_number in range(1,4):
     method_e399=e399.fracture_toughnesses(sample_number)
     method_area=area.fracture_toughnesses(sample_number)
     method_ccm=ccm.fracture_toughnesses(sample_number)
-    plt.subplot(310+sample_number)
-    plt.plot(frames,method_d5045)
-    plt.plot(frames,method_e399)
-    plt.plot(frames,method_area)
-    plt.plot(frames,method_ccm)
+   
+    plt.subplot(3,1,sample_number)
+    plt.clf()
+    plt.plot(frames,method_d5045,color='green')
+    plt.plot(frames,np.array(method_e399)*10**(-6),color='red')
+    plt.plot(frames,np.array(method_area)*10**(-6),color='blue')
+    plt.plot(frames,method_ccm,color='black')
     plt.xlabel('Frame number')
     plt.ylabel('Fracture toughness')
-
+    plt.show()
 
 
