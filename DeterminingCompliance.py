@@ -21,5 +21,6 @@ for i in range(6,len(array)-2):
 #print(compl)
 
 
+
 def calculate_compliance():
     return compl
