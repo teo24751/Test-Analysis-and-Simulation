@@ -3,13 +3,18 @@ import math
 import readData as rd
 import matplotlib.pyplot as plt
 
-sample_number = 2
+sample_number = 1
 
 array = rd.load_displacement_curve(sample_number)
 print(array[i][0] for i in range(0,50))
 def compliance(n,arr):
-    return arr[n][1]/arr[n][0]
+    if (arr[n][1]-8.090e-04)/arr[n][0] > 0:
+        return (arr[n][1]-8.090e-04)/arr[n][0]
+    else:
+        return 0
 
+for i in range(50):
+    print(array[i])
 
 compl = []
 
@@ -17,7 +22,7 @@ compl = []
     #print(array[i])
 for i in range(6,len(array)-2):
     #print(i)
-    compl.append(compliance(i,array)/1000)
+    compl.append(float(compliance(i,array)/1000))
 #print(compl)
 
 

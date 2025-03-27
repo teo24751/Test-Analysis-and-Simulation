@@ -8,8 +8,12 @@ from P_C_linearized import intersection_load
 
 def fracture_toughnesses(sample_number):
     array = rd.load_displacement_curve(sample_number)
-    def compliance(n,arr):
-        return arr[n][1]/arr[n][0]
+
+    def compliance(n, arr):
+        if (arr[n][1] - 8.090e-04) / arr[n][0] > 0:
+            return (arr[n][1] - 8.090e-04) / arr[n][0]
+        else:
+            return 0
 
     compl = []
 
