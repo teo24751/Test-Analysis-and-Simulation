@@ -67,13 +67,13 @@ def sample(sample_number):
     #crack_tip_to_edge_length=list(readData.crack_curve(sample_number)[:,1])
 
     maximum_load=max(loads)
-    print('Maximum load: ',maximum_load)
-    print('Intersection load: ',intersection_load)
+    #print('Maximum load: ',maximum_load)
+    #print('Intersection load: ',intersection_load)
     crack_length=crack_tip_length[loads.index(maximum_load)]
     displacement_at_max_load=displacements[loads.index(maximum_load)]#mm
     
     x=crack_length/width
-    print('x: ',x)
+    #print('x: ',x)
     #ligament=width-crack_length
 
 
@@ -116,11 +116,11 @@ def sample(sample_number):
 #P_C_linearized.intersection_load(list(readData.load_displacement_curve(1)[:,1]),list(readData.load_displacement_curve(1)[:,0]))
 
 sample_number=1
-plt.plot(crack_tip_length(sample_number), fracture_toughnesses(sample_number), color='green')
-plt.xlabel('Frame number')
-plt.ylabel('Fracture toughness')
-plt.show()
-print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(sample_number)*10**(-6))
-print('Critical energy release rate: ',fracture_toughness(sample_number)**2*(1-0.3**2)/(614*10**6))
-print('Fracture toughnesses: ',fracture_toughnesses(sample_number))
+#plt.plot(crack_tip_length(sample_number), fracture_toughnesses(sample_number), color='green')
+#plt.xlabel('Frame number')
+#plt.ylabel('Fracture toughness')
+#plt.show()
+#print('Fracture toughness [MPa*sqrt(m)]: ',fracture_toughness(sample_number)*10**(-6))
+#print('Critical energy release rate: ',fracture_toughness(sample_number)**2*(1-0.3**2)/(614*10**6))
+#print('Fracture toughnesses: ',fracture_toughnesses(sample_number))
 #Average of the three values as the fracture toughness!
