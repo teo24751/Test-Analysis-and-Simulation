@@ -128,11 +128,7 @@ def fracture_toughnesses(sample_number):
 
     return K_ICs
 
-print(fracture_toughnesses(1))
 
-print(fracture_toughnesses(2))
-
-print(fracture_toughnesses(3))
 
 '''
 NOTES:
