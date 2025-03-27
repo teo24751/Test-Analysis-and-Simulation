@@ -30,25 +30,6 @@ youngsModulus = 614e6#[Pa]
 loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset])
 
-#get fracture toughness from methods
-
-#output fracture toughness
-print("Fracture toughnesses, sample 1:")
-dat = readData.load_displacement_curve(1)
-crack = readData.crack_curve(1)
-short = readData.data_short(1)
-print(f"ASTM D5045: {d5045.fracture_toughness(1)}")
-print(f"ASTM E399: {e399.fracture_toughness(dat, crack)}")
-print(f"Area method: {area.fracture_toughness(short)[1]}")
-#print(f"Compliance: {ccm.fra}")
-print(f"Modified Compliance: {5}")
-
-#graph crack length
-area.plot_gic(readData.data_short(1))
-
-#graph load-displacement
-#readData.plot_all_data()
-
 #Different plots for different samples
 #In one figure, all the methods are plotted for comparison
 for sample_number in range(1,4):
