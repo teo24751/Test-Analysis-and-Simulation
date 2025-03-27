@@ -38,7 +38,8 @@ for sample_number in range(1,4):
     method_e399=e399.fracture_toughnesses(sample_number)
     method_area=area.fracture_toughnesses(sample_number)
     method_ccm=ccm.fracture_toughnesses(sample_number)
-    
+   
+    plt.subplot(3,1,sample_number)
     plt.clf()
     plt.plot(frames,method_d5045,color='green')
     plt.plot(frames,np.array(method_e399)*10**(-6),color='red')
