@@ -21,7 +21,8 @@ def G_IC(short_data, t=0.008, v = 0.3):#Calculates the energy release rate G_IC
     #print(gic)
     return gic
 
-def fracture_toughness(short_data, E = 614e6, v=0.3):
+def fracture_toughness(sampleNo, E = 614e6, v=0.3):
+    short_data = readData.data_short(sampleNo)
     ePrime = E/(1-v*v)
     gic = G_IC(short_data)
     kic = gic
