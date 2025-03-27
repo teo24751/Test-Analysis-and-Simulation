@@ -5,7 +5,7 @@ import numpy as np
 
 # Load the data
 data1 = rd.load_displacement_curve(3)
-print(data1)
+#print(data1)
 
 # Prepare the displacement and load lists
 displacement, load = [], []
@@ -35,8 +35,8 @@ slope = model.coef_[0]
 intercept = model.intercept_
 
 # Print the results
-print(f"Slope: {slope}")
-print(f"Intercept: {intercept}")
+#print(f"Slope: {slope}")
+#print(f"Intercept: {intercept}")
 
 # Predict using the model
 load_pred = model.predict(displacement_filtered_reshaped)
