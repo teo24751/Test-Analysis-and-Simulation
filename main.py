@@ -10,14 +10,15 @@ import DeterminingCompliance as complianceDet
 
 #fracture toughness calculation methods
 import AreaMethod as area
-#import ASTM_D5045 as d5045
-#import ASTM_E399 as e399
-#import ComplianceCalibrationMethod as ccm
+import ASTM_D5045 as d5045
+import ASTM_E399 as e399
+import ComplianceCalibrationMethod as ccm
 
 #data arrays -- np arrays, 2D
 LD1 = readData.load_displacement_curve(1)
 LD2 = readData.load_displacement_curve(2)
 LD3 = readData.load_displacement_curve(3)
+
 #print(LD3)
 
 #specimen geometry
@@ -31,4 +32,38 @@ specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness
 
 #get fracture toughness from methods
 
+#output fracture toughness
+print("Fracture toughnesses, sample 1:")
+dat = readData.load_displacement_curve(1)
+crack = readData.crack_curve(1)
+short = readData.data_short(1)
+print(f"ASTM D5045: {d5045.fracture_toughness(1)}")
+print(f"ASTM E399: {e399.fracture_toughness(dat, crack)}")
+print(f"Area method: {area.fracture_toughness(short)[1]}")
+#print(f"Compliance: {ccm.fra}")
+print(f"Modified Compliance: {5}")
+
 #graph crack length
+area.plot_gic(readData.data_short(1))
+
+#graph load-displacement
+#readData.plot_all_data()
+
+#Different plots for different samples
+#In one figure, all the methods are plotted for comparison
+for sample_number in range(1,4):
+    frames=d5045.frames(sample_number)
+    method_d5045=d5045.fracture_toughnesses(sample_number)
+    method_e399=e399.fracture_toughnesses(sample_number)
+    method_area=area.fracture_toughnesses(sample_number)
+    method_ccm=ccm.fracture_toughnesses(sample_number)
+    plt.subplot(310+sample_number)
+    plt.plot(frames,method_d5045)
+    plt.plot(frames,method_e399)
+    plt.plot(frames,method_area)
+    plt.plot(frames,method_ccm)
+    plt.xlabel('Frame number')
+    plt.ylabel('Fracture toughness')
+
+
+

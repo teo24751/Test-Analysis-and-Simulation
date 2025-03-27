@@ -9,7 +9,7 @@ def intersection_load(displacement,load):
     displacement = np.array(displacement)*1000
     load = np.array(load)
     # Filter the data to include only displacements between 1.0 and 3.0
-    mask = (displacement >= 0.6) & (displacement <= 3.0)
+    mask = (displacement >= 1.0) & (displacement <= 3.0)
     displacement_filtered = displacement[mask]
     load_filtered = load[mask]
 
@@ -29,14 +29,14 @@ def intersection_load(displacement,load):
     # Predict using the model
     load_pred = model.predict(displacement_filtered_reshaped)
     # Plot the regression line for the filtered data
-    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit")
+    plt.plot(displacement_filtered, load_pred, color='red', label="Linear fit (1.0 <= displacement <= 3.0)")
 
     # Create the second line with a slope of slope / 1.05, starting at the same intercept
     new_slope = slope / 1.05
     new_load_pred = new_slope * displacement_filtered + intercept  # Same intercept, but adjusted slope
 
     # Plot the new line
-    plt.plot(displacement_filtered, new_load_pred, color='green', label="Line tilted (x1.05)")
+    plt.plot(displacement_filtered, new_load_pred, color='green', label="Line tilted 1.05 times")
 
     # Add labels and legend
     plt.title("Displacement vs Load with Linear Fit and Tilted Line")

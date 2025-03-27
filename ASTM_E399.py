@@ -51,36 +51,13 @@ def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
 
     return K_IC, G_IC, K_IC_PC, G_IC_PC
 
-def fracture_toughnesses(sampleNo):
-    data = readData.load_displacement_curve(sampleNo)
-    crack_curve = readData.crack_curve(sampleNo)
-    K_IC, _, _, _ = fracture_toughness(data, crack_curve)
-    return K_IC
 
 if __name__ == "__main__":
-    sample = 1
+    sample = 3
     data = readData.load_displacement_curve(sample)
     crack_curve = readData.crack_curve(sample)
     K_IC, G_IC, K_IC_PC, G_IC_PC = fracture_toughness(data, crack_curve)
     print(K_IC, G_IC)
     print(f"fracture tougness: {K_IC_PC} Pa m^0.5")
     print(f"energy release rate: {G_IC_PC} J/m^2")
-    # plt.plot(K_IC, data[:,2])
-    # plt.show()
-    load = list(data[:,0])
-    displacement = list(data[:,1])
-    frame = list(data[:,2])
-    print(len(frame))
-    load_new = []
-    displacement_new = []
-    new_frame = []
-    for i in range(20,451,5):
-        load_new.append(load[i])
-        displacement_new.append(displacement[i])
-        new_frame.append(frame[i])
-        
-    # print(len(load_new))
-    plt.plot(new_frame, K_IC)
-    plt.show()
-
     # print(f"E = { (K_IC ** 2) / G_IC }")
