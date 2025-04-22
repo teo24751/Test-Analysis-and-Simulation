@@ -10,12 +10,11 @@ def K_IC_func(P_c, a, t=8e-3, w=0.070):
 
 
 def faw_func(aw):
-    return ((2 + aw) / ((1 - aw) ** (1.5))) * ((0.866) + (4.64 * aw) - (13.32 * (aw ** 2)) + (14.72 * (aw ** 3)) + (5.6 * (aw ** 4)))
+    return ((2 + aw) / ((1 - aw) ** (1.5))) * ((0.866) + (4.64 * aw) - (13.32 * (aw ** 2)) + (14.72 * (aw ** 3)) - (5.6 * (aw ** 4)))
 
 
 def G_IC_lam(K_IC, E, v):
     return ((K_IC ** 2) / (E / (1 - v ** 2)))
-    # return ((K_IC ** 2) / (np.sqrt(2 * E_x * E_y))) * np.sqrt(np.sqrt(E_x / E_y) + (E_x / (E_y * G_xy)) - v_xy)
 
 
 def fracture_toughness(data, crack_curve, E=614e06, v=0.3):
@@ -65,4 +64,3 @@ if __name__ == "__main__":
     print(K_IC, G_IC)
     print(f"fracture tougness: {K_IC_PC} Pa m^0.5")
     print(f"energy release rate: {G_IC_PC} J/m^2")
-    # print(f"E = { (K_IC ** 2) / G_IC }")
