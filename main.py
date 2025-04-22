@@ -270,7 +270,51 @@ def absolute_differences():
     plt.savefig("differences.png", dpi=300)
     #plt.show()
 
+def percentage():
+    fig, axs = plt.subplots(1, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
+    
+    frames=d5045.frames(1)
+    average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
+    average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
+    # average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
+    average_method_ccm=10*(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
+    
+    perentage_1=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
+    percentage_2=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
+    # differences_3=abs(average_method_e399-average_method_ccm)
 
+
+    axs.plot(frames, perentage_1, 'o', color='blue', markersize=3, label='D5045 of E399')
+    axs.plot(frames, perentage_1, '-', color='black', linewidth=0.5)
+
+    # axs.plot(frames, percentage_2, 'o', color='red', markersize=3, label='D5045 vs. CCM')
+    # axs.plot(frames, percentage_2, '-', color='black', linewidth=0.5)
+
+    # axs.plot(frames, differences_3, 'o', color='green', markersize=3, label='E399 vs. CCM')
+    # axs.plot(frames, differences_3, '-', color='black', linewidth=0.5)
+
+    axs.set_xlabel('Frame number')
+    axs.set_ylabel('Percentage [%]')
+    axs.set_title(f'D5045 percentage of E399')
+
+    axs.minorticks_on()
+    axs.xaxis.set_minor_locator(AutoMinorLocator(4))
+    axs.yaxis.set_minor_locator(AutoMinorLocator(4))
+    axs.xaxis.set_major_locator(MaxNLocator(nbins=10))
+    axs.yaxis.set_major_locator(MaxNLocator(nbins=10))
+    axs.grid(True, which='both', linewidth=0.5, alpha=0.7)
+    axs.legend()
+
+    plt.tight_layout()
+    plt.savefig("percentage.png", dpi=300)
+
+    # frame_index = 150
+    # if frame_index in frames:
+    #     index = list(frames).index(frame_index)
+    #     print(f"E399 at frame {frame_index}: {average_method_e399[index]}")
+    #     print(f"D5045 at frame {frame_index}: {average_method_d5045[index]}")
+    # else:
+    #     print(f"Frame {frame_index} is not in the list of frames.")
 
 
 #plot_excluding_area_method()
@@ -278,8 +322,8 @@ def absolute_differences():
 #reduced_plot_including_area_method()
 #average_excluding_area_method()
 averages()
-absolute_differences()
-
+# absolute_differences()
+# percentage()
 
 
 
