@@ -3,6 +3,7 @@ import csv
 import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
+from matplotlib.ticker import AutoMinorLocator,MaxNLocator
 
 #utlities
 import readData
@@ -30,23 +31,131 @@ youngsModulus = 614e6#[Pa]
 loadOffset = 0.01 #[m] -- distance from notch tip to load application point
 specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness,initialCrackLength,loadOffset])
 
-#Different plots for different samples
-#In one figure, all the methods are plotted for comparison
-for sample_number in range(1,4):
-    frames=d5045.frames(sample_number)
-    method_d5045=d5045.fracture_toughnesses(sample_number)
-    method_e399=e399.fracture_toughnesses(sample_number)
-    method_area=area.fracture_toughnesses(sample_number)
-    method_ccm=ccm.fracture_toughnesses(sample_number)
-   
-    plt.subplot(3,1,sample_number)
-    plt.clf()
-    plt.plot(frames,method_d5045,color='green')
-    plt.plot(frames,np.array(method_e399)*10**(-6),color='red')
-    plt.plot(frames,np.array(method_area)*10**(-6),color='blue')
-    plt.plot(frames,method_ccm,color='black')
-    plt.xlabel('Frame number')
-    plt.ylabel('Fracture toughness')
-    plt.show()
+def plot_including_area_method():
+    fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
+    for sample_number in range(1,4):
+        frames=d5045.frames(sample_number)
+        method_d5045=d5045.fracture_toughnesses(sample_number)
+        method_e399=e399.fracture_toughnesses(sample_number)
+        method_area=area.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)
 
+        ax = axs[sample_number - 1]  # Index starts from 0
+    
+        ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
+        ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
 
+        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
+        ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, method_ccm, 'o', color='green', markersize=3, label='CCM')
+        ax.plot(frames, method_ccm, '-', color='black', linewidth=0.5)
+
+        
+
+        ax.set_xlabel('Frame number')
+        ax.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
+        ax.set_title(f'Sample {sample_number}')
+
+        ax.minorticks_on()
+        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.grid(True, which='both', linewidth=0.5, alpha=0.7)
+        ax.legend()
+
+    plt.tight_layout()
+    plt.savefig("fracture_toughness_plot_including_area_method.png", dpi=300)
+    #plt.show()
+
+def reduced_plot_including_area_method():
+    fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
+    for sample_number in range(1,4):
+        frames=d5045.frames(sample_number)
+        method_d5045=d5045.fracture_toughnesses(sample_number)
+        method_e399=e399.fracture_toughnesses(sample_number)
+        method_area=area.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)
+
+        ax = axs[sample_number - 1]  # Index starts from 0
+    
+        ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
+        ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
+        ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, method_ccm, 'o', color='green', markersize=3, label='CCM')
+        ax.plot(frames, method_ccm, '-', color='black', linewidth=0.5)
+
+        
+        ax.set_xlim(0, 450)
+        ax.set_ylim(0, 10)
+
+        ax.set_xlabel('Frame number')
+        ax.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
+        ax.set_title(f'Sample {sample_number}')
+
+        ax.minorticks_on()
+        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.grid(True, which='both', linewidth=0.5, alpha=0.7)
+        ax.legend()
+
+    plt.tight_layout()
+    plt.savefig("reduced_fracture_toughness_plot_including_area_method.png", dpi=300)
+    #plt.show()
+
+def plot_excluding_area_method():
+    fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
+    for sample_number in range(1,4):
+        frames=d5045.frames(sample_number)
+        method_d5045=d5045.fracture_toughnesses(sample_number)
+        method_e399=e399.fracture_toughnesses(sample_number)
+        method_area=area.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)
+
+        ax = axs[sample_number - 1]  # Index starts from 0
+    
+        ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
+        ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+
+        #ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
+        #ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
+
+        ax.plot(frames, method_ccm, 'o', color='green', markersize=3, label='CCM')
+        ax.plot(frames, method_ccm, '-', color='black', linewidth=0.5)
+
+        
+
+        ax.set_xlabel('Frame number')
+        ax.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
+        ax.set_title(f'Sample {sample_number}')
+
+        ax.minorticks_on()
+        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=10))
+        ax.grid(True, which='both', linewidth=0.5, alpha=0.7)
+        ax.legend()
+
+    plt.tight_layout()
+    plt.savefig("fracture_toughness_plot_excluding_area_method.png", dpi=300)
+    #plt.show()
+
+plot_excluding_area_method()
+plot_including_area_method()
+reduced_plot_including_area_method()
