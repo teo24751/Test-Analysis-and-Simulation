@@ -200,19 +200,19 @@ def averages():
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
     average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3*1e-6
     average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
-    average_method_ccm=(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
+    average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     
     standard_deviation_d5045=np.sqrt(((average_method_d5045-np.array(d5045.fracture_toughnesses(1)))**2+(average_method_d5045-np.array(d5045.fracture_toughnesses(2)))**2)/3)
     standard_deviation_e399=np.sqrt(((average_method_e399-np.array(e399.fracture_toughnesses(1))*1e-6)**2+(average_method_e399-np.array(e399.fracture_toughnesses(2))*1e-6)**2)/3)
-    standard_deviation_ccm=np.sqrt(((average_method_ccm*1e-6-np.array(ccm.fracture_toughnesses(1)))**2+(average_method_ccm-np.array(ccm.fracture_toughnesses(2))*1e-6)**2)/3)
+    standard_deviation_ccm=np.sqrt(((average_method_ccm*1e-6-np.array(ccm.fracture_toughnesses(1)[0]))**2+(average_method_ccm-np.array(ccm.fracture_toughnesses(2)[0])*1e-6)**2)/3)
     standard_deviation_area=np.sqrt(((average_method_area-np.array(area.fracture_toughnesses(1)))**2+(average_method_area-np.array(area.fracture_toughnesses(2)))**2)/3)
 
     ax1.plot(frames, average_method_d5045, 'o', color='blue', markersize=3, label='D5045')
     ax1.plot(frames, average_method_d5045, '-', color='black', linewidth=0.5)
 
-    ax1.plot(frames, np.array(average_method_e399) , 'o', color='red', markersize=3, label='E399')
-    ax1.plot(frames, np.array(average_method_e399), '-', color='black', linewidth=0.5)
+    ax1.plot(frames, average_method_e399, 'o', color='red', markersize=3, label='E399')
+    ax1.plot(frames, average_method_e399, '-', color='black', linewidth=0.5)
 
     #ax1.plot(frames, np.array(average_method_area), 'o', color='orange', markersize=3, label='Area')
     #ax1.plot(frames, np.array(average_method_area), '-', color='black', linewidth=0.5)
@@ -241,8 +241,12 @@ def averages():
     #ax2.plot(frames, standard_deviation_area, 'o', color='orange', markersize=3, label='Area')
     #ax2.plot(frames, standard_deviation_area, '-', color='black', linewidth=0.5)
 
-    ax2.plot(frames, standard_deviation_ccm, 'o', color='green', markersize=3, label='CCM')
-    ax2.plot(frames, standard_deviation_ccm, '-', color='black', linewidth=0.5)
+    #ax2.plot(frames, standard_deviation_ccm, 'o', color='green', markersize=3, label='CCM')
+    #ax2.plot(frames, standard_deviation_ccm, '-', color='black', linewidth=0.5)
+
+    ax2.set_xlabel('Frame number')
+    ax2.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
+    ax2.set_title(f'Standard deviation')
 
     ax2.minorticks_on()
     ax2.xaxis.set_minor_locator(AutoMinorLocator(4))
@@ -263,7 +267,7 @@ def absolute_differences():
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
     average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
     #average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
-    average_method_ccm=(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
+    average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     differences_1=abs(average_method_d5045-average_method_e399)
     differences_2=abs(average_method_d5045-average_method_ccm)
@@ -343,13 +347,12 @@ def percentage():
 
 
 #plot_excluding_area_method()
-plot_including_area_method()
+#plot_including_area_method()
 #reduced_plot_including_area_method()
 #average_excluding_area_method()
-#averages()
 # absolute_differences()
 #percentage()
-#averages()
+averages()
 
 
 
