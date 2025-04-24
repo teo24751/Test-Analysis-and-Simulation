@@ -79,7 +79,9 @@ def reduced_plot_including_area_method():
         method_d5045=d5045.fracture_toughnesses(sample_number)
         method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
-        method_ccm=ccm.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
+
+        G_IC_method_cmm = ccm.fracture_toughnesses(sample_number)[1]
 
         ax = axs[sample_number - 1]  # Index starts from 0
     
@@ -122,7 +124,7 @@ def plot_excluding_area_method():
         method_d5045=d5045.fracture_toughnesses(sample_number)
         method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
-        method_ccm=ccm.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
 
         ax = axs[sample_number - 1]  # Index starts from 0
     
@@ -163,7 +165,7 @@ def average_excluding_area_method():
         method_d5045=d5045.fracture_toughnesses(sample_number)
         method_e399=e399.fracture_toughnesses(sample_number)
         #method_area=area.fracture_toughnesses(sample_number)
-        method_ccm=ccm.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
         
         average=(np.array(method_d5045)+np.array(method_e399)*1e-6+np.array(method_ccm))/3
         ax = axs[sample_number - 1]  # Index starts from 0
@@ -196,7 +198,7 @@ def averages():
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
     average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
     #average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
-    average_method_ccm=(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
+    average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     
 
@@ -277,7 +279,7 @@ def percentage():
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
     average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
     # average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
-    average_method_ccm=(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
+    average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     perentage_1=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
     percentage_2=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
@@ -321,10 +323,10 @@ def percentage():
 #plot_including_area_method()
 #reduced_plot_including_area_method()
 #average_excluding_area_method()
-#averages()
+averages()
 # absolute_differences()
 #percentage()
-averages()
+#averages()
 
 
 

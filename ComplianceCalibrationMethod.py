@@ -15,7 +15,7 @@ def fracture_toughnesses(sample_number):
     compl = []
 
     for i in range(6,len(array)-2):
-        compl.append(compliance(i,array)/1000)
+        compl.append(compliance(i,array))
 
     def calculate_compliance():
         return compl
@@ -93,8 +93,6 @@ def fracture_toughnesses(sample_number):
     def G_IC(a, P_crit, alpha, beta, chi, thickness):
         return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)
 
-    def G_IC2(a,P_crit,alpha,beta,chi,thickness,dPda):
-        return dPda * P_crit * (alpha * a + beta)**chi / thickness
 
     # * alpha * chi * (alpha * a + beta) ** (chi -1)
     #print(f"Critical load {P_crit} N")
@@ -113,11 +111,8 @@ def fracture_toughnesses(sample_number):
     #print(crack_lengths)
     K_ICs = []
     for i in range(len(loads)):
-        if i < len(loads)-1:
-            dPda = (loads[i+1]-loads[i])/(crack_lengths[i+1]-crack_lengths[i]+0.00001)
-        else:
-            dPda = 0
-        G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness) + G_IC2(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness, dPda)
+
+        G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness)
         K_ICs.append(fracture_toughness(G, E, 0.3)/(10 ** 6))
 
     iter = []
@@ -130,7 +125,7 @@ def fracture_toughnesses(sample_number):
     ###plt.ylabel('Energy release rate [J/m^2]')
     ###plt.show()
 
-
+    print(alpha, beta, chi)
     # CRITICAL G_IC AND K_IC VALUES
     crit_G_IC = (P_crit ** 2) / (2 * thickness) * derivative(critical_crack_length,alpha,beta,chi,h)
     crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
@@ -138,15 +133,11 @@ def fracture_toughnesses(sample_number):
     #print(f"Critical crack length is {critical_crack_length} m")
     print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
 
-    print(len(G_IC_list), len(array))
-    G_IC = []
-    for i in range(len(G_IC_list)):
-        for k in range(5):
-            G_IC.append(G_IC_list[i])
+    #print(len(G_IC_list), len(array))
 
 
-
-    return K_ICs
+    print(len(K_ICs), len(G_IC_list))
+    return K_ICs, G_IC_list
 
 
 fracture_toughnesses(1)
