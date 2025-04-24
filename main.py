@@ -34,9 +34,9 @@ specimenGeometryArray = np.array([specimenHeight,specimenWidth,specimenThickness
 def plot_including_area_method():
     fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
     for sample_number in range(1,4):
-        frames=d5045.frames(sample_number)
+        frames=d5045.crack_tip_length(sample_number)
         method_d5045=d5045.fracture_toughnesses(sample_number)
-        method_e399=e399.fracture_toughnesses(sample_number)
+        #method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
         method_ccm=ccm.fracture_toughnesses(sample_number)[0]
 
@@ -45,8 +45,8 @@ def plot_including_area_method():
         ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
         ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
 
-        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
-        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+        #ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        #ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
 
         ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
         ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
@@ -75,9 +75,9 @@ def plot_including_area_method():
 def reduced_plot_including_area_method():
     fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
     for sample_number in range(1,4):
-        frames=d5045.frames(sample_number)
+        frames=d5045.crack_tip_length(sample_number)
         method_d5045=d5045.fracture_toughnesses(sample_number)
-        method_e399=e399.fracture_toughnesses(sample_number)
+        #method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
         method_ccm=ccm.fracture_toughnesses(sample_number)[0]
 
@@ -88,8 +88,8 @@ def reduced_plot_including_area_method():
         ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
         ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
 
-        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
-        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+        #ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        #ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
 
         ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
         ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
@@ -120,9 +120,9 @@ def reduced_plot_including_area_method():
 def plot_excluding_area_method():
     fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
     for sample_number in range(1,4):
-        frames=d5045.frames(sample_number)
+        frames=d5045.crack_tip_length(sample_number)
         method_d5045=d5045.fracture_toughnesses(sample_number)
-        method_e399=e399.fracture_toughnesses(sample_number)
+        #method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
         method_ccm=ccm.fracture_toughnesses(sample_number)[0]
 
@@ -131,8 +131,8 @@ def plot_excluding_area_method():
         ax.plot(frames, method_d5045, 'o', color='blue', markersize=3, label='D5045')
         ax.plot(frames, method_d5045, '-', color='black', linewidth=0.5)
 
-        ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
-        ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+        #ax.plot(frames, np.array(method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
+        #ax.plot(frames, np.array(method_e399) * 1e-6, '-', color='black', linewidth=0.5)
 
         #ax.plot(frames, np.array(method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
         #ax.plot(frames, np.array(method_area) * 1e-6, '-', color='black', linewidth=0.5)
@@ -158,37 +158,7 @@ def plot_excluding_area_method():
     plt.savefig("fracture_toughness_plot_excluding_area_method.png", dpi=300)
     #plt.show()
 
-def average_excluding_area_method():
-    fig, axs = plt.subplots(3, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
-    for sample_number in range(1,4):
-        frames=d5045.frames(sample_number)
-        method_d5045=d5045.fracture_toughnesses(sample_number)
-        method_e399=e399.fracture_toughnesses(sample_number)
-        #method_area=area.fracture_toughnesses(sample_number)
-        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
-        
-        average=(np.array(method_d5045)+np.array(method_e399)*1e-6+np.array(method_ccm))/3
-        ax = axs[sample_number - 1]  # Index starts from 0
-    
-        ax.plot(frames, average, 'o', color='blue', markersize=3, label='Average')
-        ax.plot(frames, average, '-', color='black', linewidth=0.5)
 
-
-        ax.set_xlabel('Frame number')
-        ax.set_ylabel(r'Average fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
-        ax.set_title(f'Sample {sample_number}')
-
-        ax.minorticks_on()
-        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
-        ax.yaxis.set_minor_locator(AutoMinorLocator(4))
-        ax.xaxis.set_major_locator(MaxNLocator(nbins=10))
-        ax.yaxis.set_major_locator(MaxNLocator(nbins=10))
-        ax.grid(True, which='both', linewidth=0.5, alpha=0.7)
-        ax.legend()
-
-    plt.tight_layout()
-    plt.savefig("average_fracture_toughness_plot_excluding_area_method.png", dpi=300)
-    #plt.show()
 
 
 def averages():
@@ -196,23 +166,23 @@ def averages():
     ax1=axs[0]
     ax2=axs[1]
 
-    frames=d5045.frames(1)
+    frames=d5045.crack_tip_length(1)
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
-    average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3*1e-6
+    #average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3*1e-6
     average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
     average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     
     standard_deviation_d5045=np.sqrt(((average_method_d5045-np.array(d5045.fracture_toughnesses(1)))**2+(average_method_d5045-np.array(d5045.fracture_toughnesses(2)))**2)/3)
-    standard_deviation_e399=np.sqrt(((average_method_e399-np.array(e399.fracture_toughnesses(1))*1e-6)**2+(average_method_e399-np.array(e399.fracture_toughnesses(2))*1e-6)**2)/3)
+    #standard_deviation_e399=np.sqrt(((average_method_e399-np.array(e399.fracture_toughnesses(1))*1e-6)**2+(average_method_e399-np.array(e399.fracture_toughnesses(2))*1e-6)**2)/3)
     standard_deviation_ccm=np.sqrt(((average_method_ccm*1e-6-np.array(ccm.fracture_toughnesses(1)[0]))**2+(average_method_ccm-np.array(ccm.fracture_toughnesses(2)[0])*1e-6)**2)/3)
     standard_deviation_area=np.sqrt(((average_method_area-np.array(area.fracture_toughnesses(1)))**2+(average_method_area-np.array(area.fracture_toughnesses(2)))**2)/3)
 
     ax1.plot(frames, average_method_d5045, 'o', color='blue', markersize=3, label='D5045')
     ax1.plot(frames, average_method_d5045, '-', color='black', linewidth=0.5)
 
-    ax1.plot(frames, average_method_e399, 'o', color='red', markersize=3, label='E399')
-    ax1.plot(frames, average_method_e399, '-', color='black', linewidth=0.5)
+    #ax1.plot(frames, average_method_e399, 'o', color='red', markersize=3, label='E399')
+    #ax1.plot(frames, average_method_e399, '-', color='black', linewidth=0.5)
 
     #ax1.plot(frames, np.array(average_method_area), 'o', color='orange', markersize=3, label='Area')
     #ax1.plot(frames, np.array(average_method_area), '-', color='black', linewidth=0.5)
@@ -235,8 +205,8 @@ def averages():
     ax2.plot(frames, standard_deviation_d5045, 'o', color='blue', markersize=3, label='D5045')
     ax2.plot(frames, standard_deviation_d5045, '-', color='black', linewidth=0.5)
 
-    ax2.plot(frames, standard_deviation_e399, 'o', color='red', markersize=3, label='E399')
-    ax2.plot(frames, standard_deviation_e399, '-', color='black', linewidth=0.5)
+    #ax2.plot(frames, standard_deviation_e399, 'o', color='red', markersize=3, label='E399')
+    #ax2.plot(frames, standard_deviation_e399, '-', color='black', linewidth=0.5)
 
     #ax2.plot(frames, standard_deviation_area, 'o', color='orange', markersize=3, label='Area')
     #ax2.plot(frames, standard_deviation_area, '-', color='black', linewidth=0.5)
@@ -263,25 +233,25 @@ def averages():
 def absolute_differences():
     fig, axs = plt.subplots(1, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
     
-    frames=d5045.frames(1)
+    frames=d5045.crack_tip_length(1)
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
-    average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
+    #average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
     #average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
     average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
-    differences_1=abs(average_method_d5045-average_method_e399)
+    #differences_1=abs(average_method_d5045-average_method_e399)
     differences_2=abs(average_method_d5045-average_method_ccm)
-    differences_3=abs(average_method_e399-average_method_ccm)
+    #differences_3=abs(average_method_e399-average_method_ccm)
 
 
-    axs.plot(frames, differences_1, 'o', color='blue', markersize=3, label='D5045 vs. E399')
-    axs.plot(frames, differences_1, '-', color='black', linewidth=0.5)
+    #axs.plot(frames, differences_1, 'o', color='blue', markersize=3, label='D5045 vs. E399')
+    #axs.plot(frames, differences_1, '-', color='black', linewidth=0.5)
 
     axs.plot(frames, differences_2, 'o', color='red', markersize=3, label='D5045 vs. CCM')
     axs.plot(frames, differences_2, '-', color='black', linewidth=0.5)
 
-    axs.plot(frames, differences_3, 'o', color='green', markersize=3, label='E399 vs. CCM')
-    axs.plot(frames, differences_3, '-', color='black', linewidth=0.5)
+    #axs.plot(frames, differences_3, 'o', color='green', markersize=3, label='E399 vs. CCM')
+    #axs.plot(frames, differences_3, '-', color='black', linewidth=0.5)
 
     axs.set_xlabel('Frame number')
     axs.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
@@ -302,19 +272,19 @@ def absolute_differences():
 def percentage():
     fig, axs = plt.subplots(1, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
     
-    frames=d5045.frames(1)
+    frames=d5045.crack_tip_length(1)
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
-    average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
+    #average_method_e399=1e-6*(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
     # average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
     average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
-    perentage_1=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
-    percentage_2=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
+    #perentage_1=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
+    #percentage_2=abs(100*(average_method_d5045-average_method_e399)/average_method_e399)
     # differences_3=abs(average_method_e399-average_method_ccm)
 
 
-    axs.plot(frames, perentage_1, 'o', color='blue', markersize=3, label='D5045 of E399')
-    axs.plot(frames, perentage_1, '-', color='black', linewidth=0.5)
+    #axs.plot(frames, perentage_1, 'o', color='blue', markersize=3, label='D5045 of E399')
+    #axs.plot(frames, perentage_1, '-', color='black', linewidth=0.5)
 
     # axs.plot(frames, percentage_2, 'o', color='red', markersize=3, label='D5045 vs. CCM')
     # axs.plot(frames, percentage_2, '-', color='black', linewidth=0.5)
@@ -346,12 +316,12 @@ def percentage():
     #     print(f"Frame {frame_index} is not in the list of frames.")
 
 
-#plot_excluding_area_method()
-#plot_including_area_method()
-#reduced_plot_including_area_method()
+plot_excluding_area_method()
+plot_including_area_method()
+reduced_plot_including_area_method()
 #average_excluding_area_method()
-# absolute_differences()
-#percentage()
+absolute_differences()
+percentage()
 averages()
 
 
