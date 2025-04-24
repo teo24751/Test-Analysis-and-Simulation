@@ -197,7 +197,7 @@ def averages():
     frames=d5045.frames(1)
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
     average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
-    #average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
+    average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
     average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
     
     
@@ -209,8 +209,8 @@ def averages():
     axs.plot(frames, np.array(average_method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
     axs.plot(frames, np.array(average_method_e399) * 1e-6, '-', color='black', linewidth=0.5)
 
-    #axs.plot(frames, np.array(average_method_area) * 1e-6, 'o', color='orange', markersize=3, label='Area')
-    #axs.plot(frames, np.array(average_method_area) * 1e-6, '-', color='black', linewidth=0.5)
+    axs.plot(frames, np.array(average_method_area[:,0]) * 1e-6, 'o', color='orange', markersize=3, label='Area')
+    axs.plot(frames, np.array(average_method_area[:,0]) * 1e-6, '-', color='black', linewidth=0.5)
 
     axs.plot(frames, average_method_ccm, 'o', color='green', markersize=3, label='CCM')
     axs.plot(frames, average_method_ccm, '-', color='black', linewidth=0.5)
@@ -228,6 +228,7 @@ def averages():
     axs.yaxis.set_major_locator(MaxNLocator(nbins=10))
     axs.grid(True, which='both', linewidth=0.5, alpha=0.7)
     axs.legend()
+    axs.set_ylim(0, 20)
 
     plt.tight_layout()
     plt.savefig("averages.png", dpi=300)
