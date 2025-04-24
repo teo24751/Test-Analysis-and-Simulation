@@ -77,13 +77,13 @@ def fracture_toughnesses(sample_number):
     #print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
     # Plots the data and the fitted model
-    ###plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
-    ###plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
-    ###plt.title('Crack-length - Compliance curve')
-    ###plt.legend()
-    ###plt.xlabel('Crack length')
-    ###plt.ylabel('Compliance')
-    ###plt.show()
+    plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
+    plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
+    plt.title('Crack-length - Compliance curve')
+    plt.legend()
+    plt.xlabel('Crack length')
+    plt.ylabel('Compliance')
+    plt.show()
 
     def derivative(a,alpha,beta,chi,h):
         return (func(a+h, alpha, beta, chi)-func(a,alpha,beta,chi))/(h)
