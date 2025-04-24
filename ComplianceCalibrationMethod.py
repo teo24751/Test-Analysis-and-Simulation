@@ -126,6 +126,13 @@ def fracture_toughnesses(sample_number):
     #print(f"Critical crack length is {critical_crack_length} m")
     print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
 
+    print(len(G_IC_list), len(array))
+    G_IC = []
+    for i in range(len(G_IC_list)):
+        for k in range(5):
+            G_IC.append(G_IC_list[i])
+
+
 
     return K_ICs
 
