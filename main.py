@@ -192,44 +192,66 @@ def average_excluding_area_method():
 
 
 def averages():
-    fig, axs = plt.subplots(1, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
-    
+    fig, axs = plt.subplots(2, 1, figsize=(8, 8))  # One figure with 3 vertical subplots
+    ax1=axs[0]
+    ax2=axs[1]
+
     frames=d5045.frames(1)
     average_method_d5045=(np.array(d5045.fracture_toughnesses(1))+np.array(d5045.fracture_toughnesses(2))+np.array(d5045.fracture_toughnesses(3)))/3
-    average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3
+    average_method_e399=(np.array(e399.fracture_toughnesses(1))+np.array(e399.fracture_toughnesses(2))+np.array(e399.fracture_toughnesses(3)))/3*1e-6
     average_method_area=(np.array(area.fracture_toughnesses(1))+np.array(area.fracture_toughnesses(2))+np.array(area.fracture_toughnesses(3)))/3
-    average_method_ccm=(np.array(ccm.fracture_toughnesses(1)[0])+np.array(ccm.fracture_toughnesses(2)[0])+np.array(ccm.fracture_toughnesses(3)[0]))/3
+    average_method_ccm=(np.array(ccm.fracture_toughnesses(1))+np.array(ccm.fracture_toughnesses(2))+np.array(ccm.fracture_toughnesses(3)))/3
     
     
+    standard_deviation_d5045=np.sqrt(((average_method_d5045-np.array(d5045.fracture_toughnesses(1)))**2+(average_method_d5045-np.array(d5045.fracture_toughnesses(2)))**2)/3)
+    standard_deviation_e399=np.sqrt(((average_method_e399-np.array(e399.fracture_toughnesses(1))*1e-6)**2+(average_method_e399-np.array(e399.fracture_toughnesses(2))*1e-6)**2)/3)
+    standard_deviation_ccm=np.sqrt(((average_method_ccm*1e-6-np.array(ccm.fracture_toughnesses(1)))**2+(average_method_ccm-np.array(ccm.fracture_toughnesses(2))*1e-6)**2)/3)
+    standard_deviation_area=np.sqrt(((average_method_area-np.array(area.fracture_toughnesses(1)))**2+(average_method_area-np.array(area.fracture_toughnesses(2)))**2)/3)
 
+    ax1.plot(frames, average_method_d5045, 'o', color='blue', markersize=3, label='D5045')
+    ax1.plot(frames, average_method_d5045, '-', color='black', linewidth=0.5)
 
-    axs.plot(frames, average_method_d5045, 'o', color='blue', markersize=3, label='D5045')
-    axs.plot(frames, average_method_d5045, '-', color='black', linewidth=0.5)
+    ax1.plot(frames, np.array(average_method_e399) , 'o', color='red', markersize=3, label='E399')
+    ax1.plot(frames, np.array(average_method_e399), '-', color='black', linewidth=0.5)
 
-    axs.plot(frames, np.array(average_method_e399) * 1e-6, 'o', color='red', markersize=3, label='E399')
-    axs.plot(frames, np.array(average_method_e399) * 1e-6, '-', color='black', linewidth=0.5)
+    #ax1.plot(frames, np.array(average_method_area), 'o', color='orange', markersize=3, label='Area')
+    #ax1.plot(frames, np.array(average_method_area), '-', color='black', linewidth=0.5)
 
-    axs.plot(frames, np.array(average_method_area[:,0]) * 1e-6, 'o', color='orange', markersize=3, label='Area')
-    axs.plot(frames, np.array(average_method_area[:,0]) * 1e-6, '-', color='black', linewidth=0.5)
+    ax1.plot(frames, average_method_ccm, 'o', color='green', markersize=3, label='CCM')
+    ax1.plot(frames, average_method_ccm, '-', color='black', linewidth=0.5)
 
-    axs.plot(frames, average_method_ccm, 'o', color='green', markersize=3, label='CCM')
-    axs.plot(frames, average_method_ccm, '-', color='black', linewidth=0.5)
+    ax1.set_xlabel('Frame number')
+    ax1.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
+    ax1.set_title(f'Averages')
 
+    ax1.minorticks_on()
+    ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+    ax1.yaxis.set_minor_locator(AutoMinorLocator(4))
+    ax1.xaxis.set_major_locator(MaxNLocator(nbins=10))
+    ax1.yaxis.set_major_locator(MaxNLocator(nbins=10))
+    ax1.grid(True, which='both', linewidth=0.5, alpha=0.7)
+    ax1.legend()
+
+    ax2.plot(frames, standard_deviation_d5045, 'o', color='blue', markersize=3, label='D5045')
+    ax2.plot(frames, standard_deviation_d5045, '-', color='black', linewidth=0.5)
+
+    ax2.plot(frames, standard_deviation_e399, 'o', color='red', markersize=3, label='E399')
+    ax2.plot(frames, standard_deviation_e399, '-', color='black', linewidth=0.5)
+
+    #ax2.plot(frames, standard_deviation_area, 'o', color='orange', markersize=3, label='Area')
+    #ax2.plot(frames, standard_deviation_area, '-', color='black', linewidth=0.5)
+
+    ax2.plot(frames, standard_deviation_ccm, 'o', color='green', markersize=3, label='CCM')
+    ax2.plot(frames, standard_deviation_ccm, '-', color='black', linewidth=0.5)
+
+    ax2.minorticks_on()
+    ax2.xaxis.set_minor_locator(AutoMinorLocator(4))
+    ax2.yaxis.set_minor_locator(AutoMinorLocator(4))
+    ax2.xaxis.set_major_locator(MaxNLocator(nbins=10))
+    ax2.yaxis.set_major_locator(MaxNLocator(nbins=10))
+    ax2.grid(True, which='both', linewidth=0.5, alpha=0.7)
+    ax2.legend()
     
-
-    axs.set_xlabel('Frame number')
-    axs.set_ylabel(r'Fracture toughness [MPa$\sqrt{\mathrm{m}}$]')
-    axs.set_title(f'Averages')
-
-    axs.minorticks_on()
-    axs.xaxis.set_minor_locator(AutoMinorLocator(4))
-    axs.yaxis.set_minor_locator(AutoMinorLocator(4))
-    axs.xaxis.set_major_locator(MaxNLocator(nbins=10))
-    axs.yaxis.set_major_locator(MaxNLocator(nbins=10))
-    axs.grid(True, which='both', linewidth=0.5, alpha=0.7)
-    axs.legend()
-    axs.set_ylim(0, 20)
-
     plt.tight_layout()
     plt.savefig("averages.png", dpi=300)
     #plt.show()
