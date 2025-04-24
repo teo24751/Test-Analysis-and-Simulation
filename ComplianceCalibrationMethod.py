@@ -37,7 +37,8 @@ def fracture_toughnesses(sample_number):
     crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) # m
     maximum_load=max(loads)
     critical_crack_length=crack_tip_length[loads.index(maximum_load)]
-
+    loads_copy = []
+    loads_copy = loads
     loads_new=[]
     displacements_new=[]
     for i in range(20,451,5):
@@ -71,6 +72,8 @@ def fracture_toughnesses(sample_number):
     epic = sp.optimize.curve_fit(func, crack_lengths, compliance, maxfev = 100000)
     alpha, beta, chi = float(epic[0][0]), float(epic[0][1]), float(epic[0][2])
     t = np.arange(0.000, max(crack_lengths)+0.001, 0.001)
+
+
     #print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
     # Plots the data and the fitted model
@@ -88,7 +91,12 @@ def fracture_toughnesses(sample_number):
 
     # Calculates G_IC (energy release rate) from the fitted model
     def G_IC(a, P_crit, alpha, beta, chi, thickness):
-        return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)          # * alpha * chi * (alpha * a + beta) ** (chi -1)
+        return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)
+
+    def G_IC2(a,P_crit,alpha,beta,chi,thickness,dPda):
+        return dPda * P_crit * (alpha * a + beta)**chi / thickness
+
+    # * alpha * chi * (alpha * a + beta) ** (chi -1)
     #print(f"Critical load {P_crit} N")
     G_IC_list = []
 
@@ -102,10 +110,14 @@ def fracture_toughnesses(sample_number):
 
     # Find the index of the maximum load
     max_load_index = loads.index(max(loads))
-
+    #print(crack_lengths)
     K_ICs = []
     for i in range(len(loads)):
-        G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness)
+        if i < len(loads)-1:
+            dPda = (loads[i+1]-loads[i])/(crack_lengths[i+1]-crack_lengths[i]+0.00001)
+        else:
+            dPda = 0
+        G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness) + G_IC2(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness, dPda)
         K_ICs.append(fracture_toughness(G, E, 0.3)/(10 ** 6))
 
     iter = []
