@@ -38,7 +38,7 @@ def plot_including_area_method():
         method_d5045=d5045.fracture_toughnesses(sample_number)
         method_e399=e399.fracture_toughnesses(sample_number)
         method_area=area.fracture_toughnesses(sample_number)
-        method_ccm=ccm.fracture_toughnesses(sample_number)
+        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
 
         ax = axs[sample_number - 1]  # Index starts from 0
     
@@ -320,10 +320,10 @@ def percentage():
 
 
 #plot_excluding_area_method()
-#plot_including_area_method()
+plot_including_area_method()
 #reduced_plot_including_area_method()
 #average_excluding_area_method()
-averages()
+#averages()
 # absolute_differences()
 #percentage()
 #averages()
