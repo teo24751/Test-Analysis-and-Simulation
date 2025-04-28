@@ -118,12 +118,12 @@ def fracture_toughnesses(sample_number):
     iter = []
     for i in range(len(K_ICs)):
         iter.append(i)
-
-    ###plt.plot(iter, K_ICs)
-    ###plt.title(f'Crack-length - Energy release rate curve')
-    ###plt.xlabel('Crack length [m]')
-    ###plt.ylabel('Energy release rate [J/m^2]')
-    ###plt.show()
+    fig, axs = plt.subplots(1, 1, figsize=(8, 8))
+    plt.plot(iter, K_ICs)
+    plt.title(f'Crack-length - Energy release rate curve')
+    plt.xlabel('Crack length [m]')
+    plt.ylabel('Energy release rate [J/m^2]')
+    plt.show()
 
     print(alpha, beta, chi)
     # CRITICAL G_IC AND K_IC VALUES
