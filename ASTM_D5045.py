@@ -5,9 +5,10 @@ import P_C_linearized
 import matplotlib.pyplot as plt
 
 #Initial values
-width=70/1000 #m
+width=(70-12)/1000 #m
 thickness=8/1000 #m
-#yield_stress=67*10**6 #Pa
+yield_stress=5*10**6 #Pa
+a=10/1000 #m
 
 def f(x):
     return ((2+x)*(0.886+4.64*x-13.32*x**2+14.72*x**3-5.6*x**4))/(1-x)**1.5
@@ -77,10 +78,9 @@ def sample(sample_number):
     #ligament=width-crack_length
 
 
-    #if maximum_load/intersection_load>1.1:
-       # print("Test ",sample_number, " is invalid due to max load!")
-       # error=1
-        #return(error)
+    if maximum_load/intersection_load>1.1:
+       print("Test ",sample_number, " is invalid due to max load!")
+       
     ratios=[]
     for i in list(crack_tip_length):
         ratio=i/width
@@ -92,27 +92,28 @@ def sample(sample_number):
     if displacement_at_max_load>original_intersection_displacement and displacement_at_max_load<intersection_displacement:
         P_Q=maximum_load
         #print('P_Q: ',P_Q)
-        #control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
-        #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
+        control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
+        if control_parameter<thickness and control_parameter<(width-a) and control_parameter<crack_length:
+            print('The control parameter is satisifed!')
+        else:
+            print("Test ",sample_number, " is invalid!")
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
         return K_IC,G_IC,fracture_toughnesses,crack_tip_length,frames
-        #else:
-            #print("Test ",sample_number, " is invalid!")
-            #error=1
-            #return(error)
+        
     else:
         P_Q=intersection_load
         #print('P_Q: ',P_Q)
-        #control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
-        #if control_parameter<thickness and control_parameter<ligament and control_parameter<crack_length:
+        control_parameter=2.5*(K_Q(P_Q,thickness,width,x)/yield_stress)**2
+        if control_parameter<thickness and control_parameter<(width-a) and control_parameter<crack_length:
+            print('The control parameter is satisifed!')
+        else:
+            print("Test ",sample_number, " is invalid!")
         K_IC=K_Q(P_Q,thickness,width,x)
         G_IC=G_Q(thickness,width,loads,list(np.array(displacements)/1000),x)
         return K_IC,G_IC,fracture_toughnesses,crack_tip_length,frames
-        #else:
-            #print("Test ",sample_number, " is invalid!")
-            #error=1
-            #return(error)
+        
+
 #P_C_linearized.intersection_load(list(readData.load_displacement_curve(1)[:,1]),list(readData.load_displacement_curve(1)[:,0]))
 
 sample_number=1
