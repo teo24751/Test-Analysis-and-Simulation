@@ -14,7 +14,7 @@ def intersection_load(displacement,load):
     load_filtered = load[mask]
 
     # Scatter plot of the entire data
-    plt.scatter(displacement, load, label="Full Data", color='blue', s = 2)
+    #plt.scatter(displacement, load, label="Full Data", color='blue', s = 2)
 
     # Create and fit the model with the filtered data
     model = LinearRegression()

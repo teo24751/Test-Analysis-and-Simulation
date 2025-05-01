@@ -10,15 +10,12 @@ def fracture_toughnesses(sample_number):
     array = rd.load_displacement_curve(sample_number)
 
     def compliance(n, arr):
-        if (arr[n][1] - 8.090e-04) / arr[n][0] > 0:
-            return (arr[n][1] - 8.090e-04) / arr[n][0]
-        else:
-            return 0
+        return (arr[n][1]) / arr[n][0]
 
     compl = []
 
     for i in range(6,len(array)-2):
-        compl.append(compliance(i,array)/1000)
+        compl.append(compliance(i,array))
 
     def calculate_compliance():
         return compl
@@ -40,7 +37,8 @@ def fracture_toughnesses(sample_number):
     crack_tip_length=list(rd.crack_curve(sample_number)[:,0]) # m
     maximum_load=max(loads)
     critical_crack_length=crack_tip_length[loads.index(maximum_load)]
-
+    loads_copy = []
+    loads_copy = loads
     loads_new=[]
     displacements_new=[]
     for i in range(20,451,5):
@@ -74,6 +72,8 @@ def fracture_toughnesses(sample_number):
     epic = sp.optimize.curve_fit(func, crack_lengths, compliance, maxfev = 100000)
     alpha, beta, chi = float(epic[0][0]), float(epic[0][1]), float(epic[0][2])
     t = np.arange(0.000, max(crack_lengths)+0.001, 0.001)
+
+
     #print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
 
     # Plots the data and the fitted model
@@ -91,7 +91,10 @@ def fracture_toughnesses(sample_number):
 
     # Calculates G_IC (energy release rate) from the fitted model
     def G_IC(a, P_crit, alpha, beta, chi, thickness):
-        return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)          # * alpha * chi * (alpha * a + beta) ** (chi -1)
+        return (P_crit ** 2) / (2 * thickness) * derivative(a,alpha,beta,chi,h)
+
+
+    # * alpha * chi * (alpha * a + beta) ** (chi -1)
     #print(f"Critical load {P_crit} N")
     G_IC_list = []
 
@@ -105,35 +108,39 @@ def fracture_toughnesses(sample_number):
 
     # Find the index of the maximum load
     max_load_index = loads.index(max(loads))
-
+    #print(crack_lengths)
     K_ICs = []
     for i in range(len(loads)):
+
         G = G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness)
         K_ICs.append(fracture_toughness(G, E, 0.3)/(10 ** 6))
 
     iter = []
     for i in range(len(K_ICs)):
         iter.append(i)
+    fig, axs = plt.subplots(1, 1, figsize=(8, 8))
+    plt.plot(iter, K_ICs)
+    plt.title(f'Crack-length - Energy release rate curve')
+    plt.xlabel('Crack length [mm]')
+    plt.ylabel('Energy release rate [J/m^2]')
+    plt.show()
 
-    ###plt.plot(iter, K_ICs)
-    ###plt.title(f'Crack-length - Energy release rate curve')
-    ###plt.xlabel('Crack length [m]')
-    ###plt.ylabel('Energy release rate [J/m^2]')
-    ###plt.show()
-
-
+    print(alpha, beta, chi)
     # CRITICAL G_IC AND K_IC VALUES
     crit_G_IC = (P_crit ** 2) / (2 * thickness) * derivative(critical_crack_length,alpha,beta,chi,h)
     crit_K_IC = fracture_toughness(crit_G_IC, E, 0.3)
 
     #print(f"Critical crack length is {critical_crack_length} m")
-    #print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
+    print(f"Critical G_IC: {crit_G_IC} J/m^2. Critical K_IC: {crit_K_IC/(10**6)} MPam^0.5")
+
+    #print(len(G_IC_list), len(array))
 
 
-    return K_ICs
+    print(len(K_ICs), len(G_IC_list))
+    return K_ICs, G_IC_list
 
 
-
+fracture_toughnesses(1)
 '''
 NOTES:
 - assumed linearity of the stress-strain curve to convert G_IC to K_IC
