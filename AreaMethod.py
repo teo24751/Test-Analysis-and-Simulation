@@ -9,12 +9,13 @@ def G_IC(short_data, t=0.008, v = 0.3):#Calculates the energy release rate G_IC
     frame = short_data[:,3]
     gic = np.zeros((frame.shape[0],2))
     i=0
-    while i < (frame.shape[0]-1):
+    smooth_factor = 2
+    while i < (frame.shape[0]-smooth_factor):
         while crack[i+1] - crack[i] == 0:
             gic[i,1] = frame[i]
             gic[i,0] = gic[i-1,0]
             i += 1
-        gic[i,0] = abs(((load[i]*disp[i+1] - load[i+1]*disp[i]) /( 2*t* (crack[i+1]-crack[i]))))
+        gic[i,0] = abs(((load[i]*disp[i+smooth_factor] - load[i+smooth_factor]*disp[i]) /( 2*t* (crack[i+smooth_factor]-crack[i]))))
         gic[i,1] = frame[i]
         i+=1
     #print("G_C DATA")
