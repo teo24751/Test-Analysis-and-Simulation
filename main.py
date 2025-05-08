@@ -4,7 +4,7 @@ import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
 from matplotlib.ticker import AutoMinorLocator,MaxNLocator
-
+from texttable import Texttable
 #utlities
 import readData
 import DeterminingCompliance as complianceDet
@@ -350,6 +350,42 @@ def percentage():
     #     print(f"Frame {frame_index} is not in the list of frames.")
 
 
+def determine_average_std():
+    d5045_averages = []
+    d5045_std = []
+    area_averages = []
+    area_std = []
+    cmm_averages = []
+    cmm_std = []
+    for sample_number in range(1,4):
+        frames=d5045.crack_tip_length(sample_number)
+        method_d5045=d5045.fracture_toughnesses(sample_number)
+        #method_e399=e399.fracture_toughnesses(sample_number)
+        method_area=area.fracture_toughnesses(sample_number)[:,0]
+        method_ccm=ccm.fracture_toughnesses(sample_number)[0]
+        d5045_short = []
+        area_short = []
+        cmm_short = []
+        for i in range(20,len(frames)-15):
+            d5045_short.append(method_d5045[i])
+            area_short.append(method_area[i]/1000000)
+            cmm_short.append(method_ccm[i])
+        d5045_averages.append(round(np.mean(d5045_short),3))
+        d5045_std.append(round(np.std(d5045_short),3))
+        area_averages.append(round(np.mean(area_short),3))
+        area_std.append(round(np.std(area_short),3))
+        cmm_averages.append(round(np.mean(cmm_short),3))
+        cmm_std.append(round(np.std(cmm_short),3))
+
+    t = Texttable()
+    t.add_rows([['Values in MPAsqrt(m)', 'Sample 1', 'Sample 2', 'Sample 3'],
+                ['D5045', f"{d5045_averages[0]} +- {d5045_std[0]}", f"{d5045_averages[1]} +- {d5045_std[1]}", f"{d5045_averages[2]} +- {d5045_std[2]}"],
+                ['Area', f"{area_averages[0]} +- {area_std[0]}", f"{area_averages[1]} +- {area_std[1]}", f"{area_averages[2]} +- {area_std[2]}"],
+                ['CMM', f"{cmm_averages[0]} +- {cmm_std[0]}", f"{cmm_averages[1]} +- {cmm_std[1]}", f"{cmm_averages[2]} +- {cmm_std[2]}"]])
+    print(t.draw())
+
+
+
 #plot_excluding_area_method()
 #plot_including_area_method()
 reduced_plot_including_area_method()
@@ -357,7 +393,7 @@ reduced_plot_including_area_method()
 #absolute_differences()
 #percentage()
 averages()
-
+determine_average_std() #print the averages and std for each sample and method. next session I will fix it
 
 
 

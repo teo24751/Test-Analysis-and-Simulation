@@ -75,15 +75,17 @@ def fracture_toughnesses(sample_number):
 
 
     #print(f"alpha: {alpha}, beta: {beta}, chi: {chi}")
-
+    crack_lengths_forgraph = []
+    for i in range(len(crack_lengths)):
+        crack_lengths_forgraph.append(crack_lengths[i]*1000)
     # Plots the data and the fitted model
-    ###plt.plot(crack_lengths,compliance, label='Data', linewidth=2, color="gray")
-    ###plt.plot(t, (alpha * t + beta)**chi, 'r--', label='Fitted model')
-    ###plt.title('Crack-length - Compliance curve')
-    ###plt.legend()
-    ###plt.xlabel('Crack length')
-    ###plt.ylabel('Compliance')
-    ###plt.show()
+    #plt.plot(crack_lengths_forgraph,compliance, label='Data', linewidth=2, color="gray")
+    #plt.plot(t*1000, (alpha * t + beta)**chi, 'r--', label='Fitted model')
+    #plt.title('Crack-length - Compliance curve')
+    #plt.legend()
+    #plt.xlabel('Crack length [mm]')
+    #plt.ylabel('Compliance [m/N]')
+    #plt.show()
 
     def derivative(a,alpha,beta,chi,h):
         return (func(a+h, alpha, beta, chi)-func(a,alpha,beta,chi))/(h)
@@ -99,7 +101,7 @@ def fracture_toughnesses(sample_number):
     G_IC_list = []
 
     for i in range(len(compliance)):
-        G_IC_list.append(G_IC(crack_lengths[i], P_crit, alpha, beta, chi, thickness))
+        G_IC_list.append(G_IC(crack_lengths[i], loads_new[i], alpha, beta, chi, thickness))
 
 
     # Determine K_IC from G_IC
@@ -119,11 +121,11 @@ def fracture_toughnesses(sample_number):
     for i in range(len(K_ICs)):
         iter.append(i)
 
-    ###plt.plot(iter, K_ICs)
-    ###plt.title(f'Crack-length - Energy release rate curve')
-    ###plt.xlabel('Crack length [m]')
-    ###plt.ylabel('Energy release rate [J/m^2]')
-    ###plt.show()
+    #plt.plot(crack_lengths, G_IC_list)
+    #plt.title(f'Crack-length - Energy release rate curve')
+    #plt.xlabel('Crack length [m]')
+    #plt.ylabel('Energy release rate [J/m^2]')
+    #plt.show()
 
     print(alpha, beta, chi)
     # CRITICAL G_IC AND K_IC VALUES
